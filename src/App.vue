@@ -1,9 +1,63 @@
 <script setup lang="ts">
-import Menu from './components/Menu.vue';
-import Masu from './components/Masu.vue';
-import TheWelcome from './components/TheWelcome.vue';
+import { ref } from 'vue';
 
-const Fold = Masu;
+import Menu from './components/Menu.vue';
+import Form from './components/Form.vue';
+import Plan from './components/Plan.vue';
+
+import LidIcon from './components/icons/IconLid.vue';
+import MasuIcon from './components/icons/IconMasu.vue';
+
+const origamis: OrigamiItem[] = [{
+    name: 'Masu',
+    icon: MasuIcon,
+    properties: {
+        width: true,
+        height: true,
+        depth: true,
+    },
+    dimension: {
+        'Paper width': (dim: Dimension) => {
+            return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
+        },
+        'Paper height': (dim: Dimension) => {
+            return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
+        },
+        'Volume': (dim: Dimension) => {
+            return dim.width * dim.depth * dim.height;
+        },
+    },
+}, {
+    name: 'Lid',
+    icon: LidIcon,
+    properties: {
+        width: true,
+        height: true,
+        depth: true,
+        lip: true,
+        marginA: 'lid split (%)',
+        marginB: 'lid oversize (to close correctly)',
+    },
+    dimension: {
+        'Paper width': (dim: Dimension) => {
+            return dim.width + 2 * dim.height + 2 * dim.lip;
+        },
+        'Paper height': (dim: Dimension) => {
+            return 2 * dim.depth + 2 * dim.height + 2 * dim.lip + dim.marginB;
+        },
+        'Volume': (dim: Dimension) => {
+            return dim.width * dim.depth * dim.height;
+        },
+    },
+}];
+
+const currentSelection = ref(origamis[0]);
+const result = ref({});
+
+const select = (itemName: string) => {
+    const origami = origamis.find((origami) => origami.name === itemName);
+    currentSelection.value = origami;
+};
 </script>
 
 <template>
@@ -11,16 +65,23 @@ const Fold = Masu;
         <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
         <div class="wrapper">
-            <Component :is="Fold" />
+            <Form :origami="currentSelection" @change="(value) => result = value" />
         </div>
     </header>
 
     <aside>
-        <Menu />
+        <Menu
+            :items="origamis"
+            :selected="currentSelection.name"
+            @change="select"
+        />
     </aside>
-    <main>
-        <TheWelcome />
-    </main>
+    <section>
+        <Plan
+            :selected="currentSelection.name"
+            :dimensions="result"
+        />
+    </section>
 </template>
 
 <style scoped>
