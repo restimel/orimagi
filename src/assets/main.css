@@ -25,6 +25,7 @@ a,
   body {
     display: flex;
     place-items: center;
+    --plan-width: 50vw;
   }
 
   #app {
@@ -33,4 +34,41 @@ a,
     grid-template-columns: 1fr 1px 1fr;
     padding: 0 2rem;
   }
+}
+
+svg.origami {
+  stroke: currentColor;
+  fill: none;
+}
+
+.origami .fold {
+  stroke-width: 5;
+}
+
+.origami .page {
+  stroke-width: 10;
+}
+
+.origami .mark {
+  stroke-width: 1;
+  stroke-dasharray: 10 2;
+}
+
+.origami .point {
+  fill: currentColor;
+}
+
+.origami .arrow {
+  stroke-width: 3;
+}
+
+.origami .label-value {
+  font-size: 25px;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.origami .cut {
+  stroke: none;
+  fill: rgba(200, 200, 200, 0.5);
 }

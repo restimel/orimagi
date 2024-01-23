@@ -12,6 +12,7 @@ type Dimension = {
     height: boolean | string;
     lip?: boolean | string;
     dividers?: boolean | string;
+    ratio?: boolean | string;
     marginA?: boolean | string;
     marginB?: boolean | string;
 };

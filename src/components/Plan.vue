@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import MasuPlan from './plan/MasuPlan.vue';
+import LidPlan from './plan/LidPlan.vue';
 
 const props = defineProps<{
     selected: string;
@@ -9,6 +10,8 @@ const props = defineProps<{
 
 const component = computed(() => {
     switch (props.selected) {
+        case 'Lid':
+            return LidPlan;
         case 'Masu':
         default:
             return MasuPlan;
@@ -18,12 +21,16 @@ const component = computed(() => {
 </script>
 <template>
     <div class="plan">
-        <Component :is="component" :dimensions="props.dimensions" />
+        <Component
+            :is="component"
+            :dimensions="props.dimensions"
+        />
     </div>
 </template>
 
 <style scoped>
 .plan {
     padding: 25px;
+    width: var(--plan-width, 90vw);
 }
 </style>

@@ -35,15 +35,15 @@ const origamis: OrigamiItem[] = [{
         height: true,
         depth: true,
         lip: true,
-        marginA: 'lid split (%)',
-        marginB: 'lid oversize (to close correctly)',
+        marginA: 'lid oversize (to close correctly)',
+        ratio: 'lid split (%)',
     },
     dimension: {
         'Paper width': (dim: Dimension) => {
             return dim.width + 2 * dim.height + 2 * dim.lip;
         },
         'Paper height': (dim: Dimension) => {
-            return 2 * dim.depth + 2 * dim.height + 2 * dim.lip + dim.marginB;
+            return 2 * dim.depth + 2 * dim.height + 2 * dim.lip + dim.marginA;
         },
         'Volume': (dim: Dimension) => {
             return dim.width * dim.depth * dim.height;

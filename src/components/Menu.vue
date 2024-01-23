@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// import DocumentationIcon from './icons/IconDocumentation.vue';
-// const items = defineProps('items');
 defineProps<{
     items: OrigamiItem[];
     selected: string;

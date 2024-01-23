@@ -32,6 +32,7 @@ const propertyName = computed(() => {
         lip: defaultValue(properties.lip, 'Lip size'),
         marginA: defaultValue(properties.marginA, 'Margin'),
         marginB: defaultValue(properties.marginB, 'Margin'),
+        ratio: defaultValue(properties.ratio, 'Margin'),
     };
 });
 const properties: DimensionValues = reactive({
@@ -42,11 +43,10 @@ const properties: DimensionValues = reactive({
     dividers: 0,
     marginA: 0,
     marginB: 0,
+    ratio: 50,
 });
 const displayedProperties = computed(() => {
-    console.log(Object.entries(propertyName.value));
     return Object.entries(propertyName.value).reduce((list, [key, value]) => {
-        console.log(key, value);
         if (value) {
             list.push(key);
         }
@@ -63,26 +63,37 @@ function computeDimension(dim: DimensionValues) {
 }
 
 const dimensionValues = computed(() => {
-    return computeDimension(properties)
+    return computeDimension(properties);
 })
 
-function changeDimension(dimName: string, oldValue: number, newValue: number, currentProperties = properties, protection = 20) {
-    const ratio = newValue / oldValue;
+function scale(value: number, ratio: number): number {
+    const scaled = value * ratio;
+    return Math.round(scaled * 1_000_000) / 1_000_000;
+}
+
+function reScale(dimName: string, originValue: number, targetValue: number, minMax?: [number, number], protection = 0) {
+    const ratio = minMax ? (minMax[0] + minMax[1]) / 2 : targetValue / originValue;
+
+    if (!Number.isFinite(ratio) || ratio < 0) {
+        return false;
+    }
+
     const newProperties = {
-        width: currentProperties.width * ratio,
-        depth: currentProperties.depth * ratio,
-        height: currentProperties.height * ratio,
-        lip: currentProperties.lip * ratio,
-        dividers: currentProperties.dividers * ratio,
-        marginA: currentProperties.marginA * ratio,
-        marginB: currentProperties.marginB * ratio,
+        width: scale(properties.width, ratio),
+        depth: scale(properties.depth, ratio),
+        height: scale(properties.height, ratio),
+        lip: scale(properties.lip, ratio),
+        dividers: scale(properties.dividers, ratio),
+        marginA: scale(properties.marginA, ratio),
+        marginB: scale(properties.marginB, ratio),
+        ratio: properties.ratio,
     };
 
     const dimensionSize = computeDimension(newProperties);
     const propValue = dimensionSize.find(([dimSizeName]) => dimSizeName === dimName)[1];
-    const resultRatio = propValue / newValue;
+    const resultRatio = propValue / targetValue;
 
-    if (protection <= 0 || isNaN(resultRatio) || Math.abs(resultRatio - 1) < 1e-6) {
+    if (Number.isFinite(resultRatio) && Math.abs(resultRatio - 1) < 1e-6) {
         properties.width = newProperties.width;
         properties.depth = newProperties.depth;
         properties.height = newProperties.height;
@@ -90,19 +101,34 @@ function changeDimension(dimName: string, oldValue: number, newValue: number, cu
         properties.dividers = newProperties.dividers;
         properties.marginA = newProperties.marginA;
         properties.marginB = newProperties.marginB;
-    } else {
-        changeProperty(dimName, propValue, newValue, currentProperties, protection - 1);
+        properties.ratio = newProperties.ratio;
+        return true;
     }
+
+    if (protection < 30) {
+        const range = minMax ? minMax : [
+            targetValue / originValue > 1 ? 1 : 0,
+            targetValue / originValue > 1 ? 1e5 : 1,
+        ];
+        if (resultRatio > 1) {
+            range[1] = ratio;
+        } else {
+            range[0] = ratio;
+        }
+
+        return reScale(dimName, originValue, targetValue, range, protection + 1);
+    }
+    return false;
 }
 
-watch(dimensionValues, () => {
+watch([properties, title], () => {
     const results = {
         ...properties,
     };
     dimensionValues.value.forEach(([key, value]) => results[key] = value);
 
     emit('change', results);
-}, { immediate: true })
+}, { immediate: true})
 </script>
 
 <template>
@@ -118,7 +144,7 @@ watch(dimensionValues, () => {
                 <input
                     :value="properties[name]"
                     @input="(evt) => {
-                        properties[name] = +evt.currentTarget.value;
+                        properties[name] = parseFloat(evt.currentTarget.value) || 0;
                     }"
                 >
             </label>
@@ -133,7 +159,7 @@ watch(dimensionValues, () => {
                 <input
                     :value="value"
                     @change="(evt) => {
-                        changeDimension(name, value, +evt.currentTarget.value);
+                        reScale(name, value, +evt.currentTarget.value);
                     }"
                 >
             </label>
