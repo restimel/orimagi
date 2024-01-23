@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const mx = 1;
 const my = 1;
 const w = 13;
@@ -21,3 +21,7 @@ const path = top + top2 + side + front;
     />
   </svg>
 </template>
+
+<style scoped>
+
+</style>

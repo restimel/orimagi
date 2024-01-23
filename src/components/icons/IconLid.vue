@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const mx = 1;
 const my = 1;
 const w = 11;
@@ -12,6 +12,7 @@ const side = `M${mx},${my} L${mx},${my+h} ${mx+dx},${my+h+dy} ${mx+dx},${my+dy}`
 const front = `M${mx+dx+w},${my+dy} L${mx+dx+w},${my+h+dy} ${mx+dx},${my+dy+h}`;
 const path = top + top2 + side + front;
 </script>
+
 <template>
   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" stoke="currentColor" fill="currentColor">
     <path
@@ -21,3 +22,5 @@ const path = top + top2 + side + front;
     />
   </svg>
 </template>
+
+<style scoped></style>

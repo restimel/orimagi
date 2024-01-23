@@ -2,11 +2,11 @@
 type OrigamiItem = {
     name: string;
     icon: VNode;
-    properties: Dimension;
-    dimension: Record<string, (dim: DimensionValues) => Record<keyof size, number>>;
+    properties: Properties;
+    dimension: Dimension;
 };
 
-type Dimension = {
+type Properties = {
     width: boolean | string;
     depth: boolean | string;
     height: boolean | string;
@@ -17,8 +17,13 @@ type Dimension = {
     marginB?: boolean | string;
 };
 
+type PropertyValues = {
+    [name in keyof Properties]: number;
+};
+
+type Dimension = Record<string, (dim: PropertyValues) => number>;
 type DimensionValues = {
     [name in keyof Dimension]: number;
 };
 
-type AllValues = Dimension & DimensionValues;
+type AllValues = DimensionValues & PropertyValues;

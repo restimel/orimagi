@@ -17,13 +17,13 @@ const origamis: OrigamiItem[] = [{
         depth: true,
     },
     dimension: {
-        'Paper width': (dim: Dimension) => {
+        'Paper width': (dim: PropertyValues) => {
             return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
         },
-        'Paper height': (dim: Dimension) => {
+        'Paper height': (dim: PropertyValues) => {
             return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
         },
-        'Volume': (dim: Dimension) => {
+        'Volume': (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
         },
     },
@@ -39,23 +39,32 @@ const origamis: OrigamiItem[] = [{
         ratio: 'lid split (%)',
     },
     dimension: {
-        'Paper width': (dim: Dimension) => {
-            return dim.width + 2 * dim.height + 2 * dim.lip;
+        'Paper width': (dim: PropertyValues) => {
+            return dim.width + 2 * dim.height + 2 * (dim.lip || 0);
         },
-        'Paper height': (dim: Dimension) => {
-            return 2 * dim.depth + 2 * dim.height + 2 * dim.lip + dim.marginA;
+        'Paper height': (dim: PropertyValues) => {
+            return 2 * dim.depth + 2 * dim.height + 2 * (dim.lip || 0) + (dim.marginA || 0);
         },
-        'Volume': (dim: Dimension) => {
+        'Volume': (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
         },
     },
 }];
 
 const currentSelection = ref(origamis[0]);
-const result = ref({});
+const result = ref<AllValues>({
+    width: 0,
+    height: 0,
+    depth: 0,
+});
 
 const select = (itemName: string) => {
     const origami = origamis.find((origami) => origami.name === itemName);
+
+    if (!origami) {
+        return;
+    }
+
     currentSelection.value = origami;
 };
 </script>

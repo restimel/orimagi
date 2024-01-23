@@ -37,7 +37,7 @@ const ready = computed(() => {
 });
 
 const lidRatio = computed(() => {
-    return Math.max(Math.min(props.dimensions.ratio, 100), 0);
+    return Math.max(Math.min(props.dimensions.ratio || 0, 100), 0);
 });
 
 const lipLid = computed(() => {
@@ -45,7 +45,11 @@ const lipLid = computed(() => {
     const depth = dimensions.depth;
     const ratio = lidRatio.value / 100;
 
-    return depth * ratio + dimensions.marginA;
+    return depth * ratio + (dimensions.marginA || 0);
+});
+
+const dimLip = computed(() => {
+    return props.dimensions.dim0;
 });
 
 </script>
@@ -111,29 +115,29 @@ const lipLid = computed(() => {
         <g>
             <line
                 class="fold"
-                :x1="props.dimensions.lip * ratio"
-                :x2="props.dimensions.lip * ratio"
+                :x1="dimLip * ratio"
+                :x2="dimLip * ratio"
                 :y1="0"
                 :y2="pHeight"
             />
             <line
                 class="fold"
-                :x1="(props.dimensions.lip + props.dimensions.height) * ratio"
-                :x2="(props.dimensions.lip + props.dimensions.height) * ratio"
+                :x1="(dimLip + props.dimensions.height) * ratio"
+                :x2="(dimLip + props.dimensions.height) * ratio"
                 :y1="0"
                 :y2="pHeight"
             />
             <line
                 class="fold"
-                :x1="pWidth - (props.dimensions.lip) * ratio"
-                :x2="pWidth - (props.dimensions.lip) * ratio"
+                :x1="pWidth - (dimLip) * ratio"
+                :x2="pWidth - (dimLip) * ratio"
                 :y1="0"
                 :y2="pHeight"
             />
             <line
                 class="fold"
-                :x1="pWidth - (props.dimensions.lip + props.dimensions.height) * ratio"
-                :x2="pWidth - (props.dimensions.lip + props.dimensions.height) * ratio"
+                :x1="pWidth - (dimLip + props.dimensions.height) * ratio"
+                :x2="pWidth - (dimLip + props.dimensions.height) * ratio"
                 :y1="0"
                 :y2="pHeight"
             />
@@ -201,47 +205,47 @@ const lipLid = computed(() => {
                 :y="(lipLid + 2 * props.dimensions.height + props.dimensions.depth) * ratio"
                 :x2="pWidth"
                 :y2="pHeight"
-                :text="props.dimensions.depth - lipLid + props.dimensions.marginA"
+                :text="props.dimensions.depth - lipLid + (props.dimensions.marginA || 0)"
             />
 
-            <Arrow v-if="props.dimensions.lip"
+            <Arrow v-if="dimLip"
                 :x="0"
                 :y="pHeight"
-                :x2="props.dimensions.lip * ratio"
+                :x2="dimLip * ratio"
                 :y2="pHeight"
-                :text="props.dimensions.lip"
+                :text="dimLip"
                 reverseOffset
             />
             <Arrow
-                :x="props.dimensions.lip * ratio"
+                :x="dimLip * ratio"
                 :y="pHeight"
-                :x2="(props.dimensions.lip + props.dimensions.height) * ratio"
+                :x2="(dimLip + props.dimensions.height) * ratio"
                 :y2="pHeight"
                 :text="props.dimensions.height"
                 reverseOffset
             />
             <Arrow
-                :x="(props.dimensions.lip + props.dimensions.height) * ratio"
+                :x="(dimLip + props.dimensions.height) * ratio"
                 :y="pHeight"
-                :x2="pWidth - (props.dimensions.lip + props.dimensions.height) * ratio"
+                :x2="pWidth - (dimLip + props.dimensions.height) * ratio"
                 :y2="pHeight"
                 :text="props.dimensions.width"
                 reverseOffset
             />
             <Arrow
-                :x="pWidth - (props.dimensions.lip + props.dimensions.height) * ratio"
+                :x="pWidth - (dimLip + props.dimensions.height) * ratio"
                 :y="pHeight"
-                :x2="pWidth - (props.dimensions.lip) * ratio"
+                :x2="pWidth - (dimLip) * ratio"
                 :y2="pHeight"
                 :text="props.dimensions.height"
                 reverseOffset
             />
-            <Arrow v-if="props.dimensions.lip"
-                :x="pWidth - (props.dimensions.lip) * ratio"
+            <Arrow v-if="dimLip"
+                :x="pWidth - (dimLip) * ratio"
                 :y="pHeight"
                 :x2="pWidth"
                 :y2="pHeight"
-                :text="props.dimensions.lip"
+                :text="dimLip"
                 reverseOffset
             />
         </g>

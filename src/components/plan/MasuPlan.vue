@@ -33,7 +33,7 @@ const ready = computed(() => {
     ].every((val) => Number.isFinite(val));
 });
 
-const cosSin45 = Math.cos(Math.PI / 4);
+const cosSin45 = 1 / Math.SQRT2;
 
 function getCoord(value: number): number {
     return 500 + (value || 0) * ratio.value * cosSin45;

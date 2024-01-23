@@ -33,7 +33,11 @@ const ty = computed(() => {
     return props.y;
 });
 
-function fValue(value: number): string {
+function fValue(value: number | ''): string {
+    if (value === '') {
+        return '';
+    }
+
     return (value || 0).toString().replace(/(\.\d{2}).*$/, '$1').replace(/(\d{1,3})(?=(?:\d{3})+(?:\.|$))/g, '$1 ');
 }
 </script>
