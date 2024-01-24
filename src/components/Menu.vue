@@ -11,11 +11,11 @@ defineProps<{
             <li v-for="item of items"
                 :class="{
                     'menu-item': true,
-                    selected: item.name === selected,
+                    selected: item.id === selected,
                 }"
-                :key="item.name"
+                :key="item.id"
                 :title="item.name"
-                @click="() => $emit('change', item.name)"
+                @click="() => $emit('change', item.id)"
             >
                 <component :is="item.icon" />
             </li>

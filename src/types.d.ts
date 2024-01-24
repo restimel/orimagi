@@ -1,10 +1,18 @@
 
 type OrigamiItem = {
+    id: string;
     name: string;
     icon: VNode;
     properties: Properties;
     dimension: Dimension;
 };
+
+type OrigamiSaved = {
+    id: number;
+    name: string;
+    type: string;
+    values: PropertyValues;
+}
 
 type Properties = {
     width: boolean | string;

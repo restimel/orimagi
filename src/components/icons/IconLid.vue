@@ -14,7 +14,18 @@ const path = top + top2 + side + front;
 </script>
 
 <template>
-  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="17" stoke="currentColor" fill="currentColor">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="17"
+    class="iconify iconify--mdi"
+    viewBox="0 0 24 17"
+    preserveAspectRatio="xMidYMid meet"
+    aria-hidden="true"
+    role="img"
+    stoke="currentColor"
+    fill="currentColor"
+  >
     <path
         stroke="black"
         fill="none"

@@ -5,6 +5,7 @@ import IconLock from './icons/IconLock.vue';
 
 const props = defineProps<{
     origami: OrigamiItem;
+    values: PropertyValues;
 }>();
 
 const emit = defineEmits<{
@@ -24,6 +25,7 @@ function defaultValue(value: boolean | string | undefined, defaultValue: string)
 }
 
 const title = computed(() => props.origami.name);
+const values = computed(() => props.values);
 const propertyName = computed<Properties>(() => {
     const properties = props.origami.properties;
 
@@ -137,6 +139,16 @@ function reScale(dimName: string, originValue: number, targetValue: number, minM
     return false;
 }
 
+watch(values, () => {
+    for (const [key, value] of (Object.entries(values.value) as Array<[keyof PropertyValues, number]>)) {
+        const oldValue = properties[key];
+
+        if (oldValue !== undefined && oldValue !== value) {
+            properties[key] = value;
+        }
+    }
+});
+
 watch([properties, title], () => {
     const results: AllValues = {
         ...properties,
@@ -148,7 +160,7 @@ watch([properties, title], () => {
 </script>
 
 <template>
-    <div class="greetings">
+    <div class="main-form">
         <h1 class="green">{{ title }}</h1>
         <fieldset>
             <legend>Properties</legend>
@@ -202,14 +214,14 @@ h3 {
   font-size: 1.2rem;
 }
 
-.greetings h1,
-.greetings h3 {
+.main-form h1,
+.main-form h3 {
   text-align: center;
 }
 
 @media (min-width: 1024px) {
-  .greetings h1,
-  .greetings h3 {
+  .main-form h1,
+  .main-form h3 {
     text-align: left;
   }
 }

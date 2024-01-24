@@ -4,62 +4,21 @@ import { ref } from 'vue';
 import Menu from './components/Menu.vue';
 import Form from './components/Form.vue';
 import Plan from './components/Plan.vue';
+import Stored from './components/Stored.vue';
 
-import LidIcon from './components/icons/IconLid.vue';
-import MasuIcon from './components/icons/IconMasu.vue';
-
-const origamis: OrigamiItem[] = [{
-    name: 'Masu',
-    icon: MasuIcon,
-    properties: {
-        width: true,
-        height: true,
-        depth: true,
-    },
-    dimension: {
-        'Paper width': (dim: PropertyValues) => {
-            return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
-        },
-        'Paper height': (dim: PropertyValues) => {
-            return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
-        },
-        'Volume': (dim: PropertyValues) => {
-            return dim.width * dim.depth * dim.height;
-        },
-    },
-}, {
-    name: 'Lid',
-    icon: LidIcon,
-    properties: {
-        width: true,
-        height: true,
-        depth: true,
-        lip: true,
-        marginA: 'lid oversize (to close correctly)',
-        ratio: 'lid split (%)',
-    },
-    dimension: {
-        'Paper width': (dim: PropertyValues) => {
-            return dim.width + 2 * dim.height + 2 * (dim.lip || 0);
-        },
-        'Paper height': (dim: PropertyValues) => {
-            return 2 * dim.depth + 2 * dim.height + 2 * (dim.lip || 0) + (dim.marginA || 0);
-        },
-        'Volume': (dim: PropertyValues) => {
-            return dim.width * dim.depth * dim.height;
-        },
-    },
-}];
+import origamis, { getOrigami } from './origami';
 
 const currentSelection = ref(origamis[0]);
 const result = ref<AllValues>({
-    width: 0,
-    height: 0,
-    depth: 0,
+    width: 1,
+    height: 1,
+    depth: 1,
 });
 
+const saved = ref<OrigamiSaved[]>([]);
+
 const select = (itemName: string) => {
-    const origami = origamis.find((origami) => origami.name === itemName);
+    const origami = origamis.find((origami) => origami.id === itemName);
 
     if (!origami) {
         return;
@@ -67,6 +26,12 @@ const select = (itemName: string) => {
 
     currentSelection.value = origami;
 };
+
+const load = (item: OrigamiSaved) => {
+    currentSelection.value = getOrigami(item.type)!;
+    result.value = item.values;
+};
+
 </script>
 
 <template>
@@ -74,20 +39,34 @@ const select = (itemName: string) => {
         <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
         <div class="wrapper">
-            <Form :origami="currentSelection" @change="(value) => result = value" />
+            <Form
+                :origami="currentSelection"
+                :values="result"
+                @change="(value) => result = value"
+            />
+            <Stored
+                :list="saved"
+                :selected="currentSelection"
+                :properties="result"
+
+                @change="(list) => {
+                    saved = list;
+                }"
+                @load="load"
+            />
         </div>
     </header>
 
     <aside>
         <Menu
             :items="origamis"
-            :selected="currentSelection.name"
+            :selected="currentSelection.id"
             @change="select"
         />
     </aside>
     <section>
         <Plan
-            :selected="currentSelection.name"
+            :selected="currentSelection.id"
             :dimensions="result"
         />
     </section>
