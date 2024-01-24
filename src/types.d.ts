@@ -27,3 +27,7 @@ type DimensionValues = {
 };
 
 type AllValues = DimensionValues & PropertyValues;
+
+type PlanProps = {
+    dimensions: AllValues;
+};

@@ -2,27 +2,14 @@
 import { computed } from 'vue';
 import Arrow from './Arrow.vue';
 
+import * as plan from './plan';
+
 const props = defineProps<{
     dimensions: AllValues;
 }>();
 
-const paperWidth = computed(() => props.dimensions['Paper width'] || 0);
-const paperHeight = computed(() => props.dimensions['Paper height'] || 0);
-
-const ratio = computed(() => {
-    const width = paperWidth.value;
-    const height =  paperHeight.value;
-
-    return  Math.min(1000 / width, 1000 / height, 1e12) || 1e-15;
-});
-const pWidth = computed(() => {
-    return paperWidth.value * ratio.value || 0;
-});
-const pHeight = computed(() => {
-    return paperHeight.value * ratio.value || 0;
-});
-
-/* ---- */
+const page = plan.page(props);
+const properties = plan.properties(props);
 
 const ready = computed(() => {
     const dimensions = props.dimensions;
@@ -31,25 +18,16 @@ const ready = computed(() => {
         dimensions.height,
         dimensions.width,
         dimensions.depth,
-        pWidth.value,
-        pHeight.value,
+        page.pWidth,
+        page.pHeight,
     ].every((val) => Number.isFinite(val));
 });
 
-const lidRatio = computed(() => {
-    return Math.max(Math.min(props.dimensions.ratio || 0, 100), 0);
-});
-
 const lipLid = computed(() => {
-    const dimensions = props.dimensions;
-    const depth = dimensions.depth;
-    const ratio = lidRatio.value / 100;
+    const depth = properties.depth;
+    const ratio = properties.ratio / 100;
 
-    return depth * ratio + (dimensions.marginA || 0);
-});
-
-const dimLip = computed(() => {
-    return props.dimensions.dim0;
+    return depth * ratio + properties.marginA;
 });
 
 </script>
@@ -61,191 +39,197 @@ const dimLip = computed(() => {
 
         viewBox="-100 -100 1200 1200"
     >
+        <g  v-if="properties.lip">
+            <pattern id="stripes" patternUnits="userSpaceOnUse" width="10" height="10">
+                <line x1="0" y1="0" x2="10" y2="10" />
+                <line x1="0" y1="10" x2="10" y2="0" />
+            </pattern>
+
+            <rect
+                class="cut2"
+                :x="0"
+                :y="0"
+                :width="properties.lip * page.ratio"
+                :height="(lipLid + properties.height) * page.ratio"
+                fill="url(#stripes)"
+            />
+            <rect
+                class="cut"
+                :x="page.pWidth - properties.lip * page.ratio"
+                :y="0"
+                :width="properties.lip * page.ratio"
+                :height="(lipLid + properties.height) * page.ratio"
+            />
+            <rect
+                class="cut"
+                :x="0"
+                :y="(lipLid + properties.height + properties.depth) * page.ratio"
+                :width="properties.lip * page.ratio"
+                :height="page.pHeight - (lipLid + properties.height + properties.depth) * page.ratio"
+            />
+            <rect
+                class="cut"
+                :x="page.pWidth - properties.lip * page.ratio"
+                :y="(lipLid + properties.height + properties.depth) * page.ratio"
+                :width="properties.lip * page.ratio"
+                :height="page.pHeight - (lipLid + properties.height + properties.depth) * page.ratio"
+            />
+        </g>
         <g>
             <Arrow
                 :x="0"
                 :y="0"
-                :x2="pWidth"
+                :x2="page.pWidth"
                 :y2="0"
-                :text="paperWidth"
+                :text="page.paperWidth"
             />
             <Arrow
                 :x="0"
-                :y="pHeight"
+                :y="page.pHeight"
                 :x2="0"
                 :y2="0"
-                :text="paperHeight"
+                :text="page.paperHeight"
             />
 
             <rect
                 class="page"
-                x="0" y="0" :width="pWidth" :height="pHeight"
-            />
-        </g>
-        <g  v-if="props.dimensions.lip">
-            <rect
-                class="cut"
-                :x="0"
-                :y="0"
-                :width="props.dimensions.lip * ratio"
-                :height="(lipLid + props.dimensions.height) * ratio"
-            />
-            <rect
-                class="cut"
-                :x="pWidth - props.dimensions.lip * ratio"
-                :y="0"
-                :width="props.dimensions.lip * ratio"
-                :height="(lipLid + props.dimensions.height) * ratio"
-            />
-            <rect
-                class="cut"
-                :x="0"
-                :y="(lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
-                :width="props.dimensions.lip * ratio"
-                :height="pHeight - (lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
-            />
-            <rect
-                class="cut"
-                :x="pWidth - props.dimensions.lip * ratio"
-                :y="(lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
-                :width="props.dimensions.lip * ratio"
-                :height="pHeight - (lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
+                x="0" y="0" :width="page.pWidth" :height="page.pHeight"
             />
         </g>
         <g>
             <line
                 class="fold"
-                :x1="dimLip * ratio"
-                :x2="dimLip * ratio"
+                :x1="properties.lip * page.ratio"
+                :x2="properties.lip * page.ratio"
                 :y1="0"
-                :y2="pHeight"
+                :y2="page.pHeight"
             />
             <line
                 class="fold"
-                :x1="(dimLip + props.dimensions.height) * ratio"
-                :x2="(dimLip + props.dimensions.height) * ratio"
+                :x1="(properties.lip + properties.height) * page.ratio"
+                :x2="(properties.lip + properties.height) * page.ratio"
                 :y1="0"
-                :y2="pHeight"
+                :y2="page.pHeight"
             />
             <line
                 class="fold"
-                :x1="pWidth - (dimLip) * ratio"
-                :x2="pWidth - (dimLip) * ratio"
+                :x1="page.pWidth - (properties.lip) * page.ratio"
+                :x2="page.pWidth - (properties.lip) * page.ratio"
                 :y1="0"
-                :y2="pHeight"
+                :y2="page.pHeight"
             />
             <line
                 class="fold"
-                :x1="pWidth - (dimLip + props.dimensions.height) * ratio"
-                :x2="pWidth - (dimLip + props.dimensions.height) * ratio"
+                :x1="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
                 :y1="0"
-                :y2="pHeight"
+                :y2="page.pHeight"
             />
 
             <line
                 class="fold"
                 :x1="0"
-                :x2="pWidth"
-                :y2="lipLid * ratio"
-                :y1="lipLid * ratio"
+                :x2="page.pWidth"
+                :y2="lipLid * page.ratio"
+                :y1="lipLid * page.ratio"
             />
             <line
                 class="fold"
                 :x1="0"
-                :x2="pWidth"
-                :y1="(lipLid + props.dimensions.height) * ratio"
-                :y2="(lipLid + props.dimensions.height) * ratio"
+                :x2="page.pWidth"
+                :y1="(lipLid + properties.height) * page.ratio"
+                :y2="(lipLid + properties.height) * page.ratio"
             />
             <line
                 class="fold"
                 :x1="0"
-                :x2="pWidth"
-                :y1="(lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
-                :y2="(lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
+                :x2="page.pWidth"
+                :y1="(lipLid + properties.height + properties.depth) * page.ratio"
+                :y2="(lipLid + properties.height + properties.depth) * page.ratio"
             />
             <line
                 class="fold"
                 :x1="0"
-                :x2="pWidth"
-                :y1="(lipLid + 2 * props.dimensions.height + props.dimensions.depth) * ratio"
-                :y2="(lipLid + 2 * props.dimensions.height + props.dimensions.depth) * ratio"
+                :x2="page.pWidth"
+                :y1="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
+                :y2="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
             />
         </g>
         <g>
             <Arrow
-                :x="pWidth"
+                :x="page.pWidth"
                 :y="0"
-                :x2="pWidth"
-                :y2="lipLid * ratio"
+                :x2="page.pWidth"
+                :y2="lipLid * page.ratio"
                 :text="lipLid"
             />
             <Arrow
-                :x="pWidth"
-                :y="lipLid * ratio"
-                :x2="pWidth"
-                :y2="(lipLid + props.dimensions.height) * ratio"
-                :text="props.dimensions.height"
+                :x="page.pWidth"
+                :y="lipLid * page.ratio"
+                :x2="page.pWidth"
+                :y2="(lipLid + properties.height) * page.ratio"
+                :text="properties.height"
             />
             <Arrow
-                :x="pWidth"
-                :y="(lipLid + props.dimensions.height) * ratio"
-                :x2="pWidth"
-                :y2="(lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
-                :text="props.dimensions.depth"
+                :x="page.pWidth"
+                :y="(lipLid + properties.height) * page.ratio"
+                :x2="page.pWidth"
+                :y2="(lipLid + properties.height + properties.depth) * page.ratio"
+                :text="properties.depth"
             />
             <Arrow
-                :x="pWidth"
-                :y="(lipLid + props.dimensions.height + props.dimensions.depth) * ratio"
-                :x2="pWidth"
-                :y2="(lipLid + 2 * props.dimensions.height + props.dimensions.depth) * ratio"
-                :text="props.dimensions.height"
+                :x="page.pWidth"
+                :y="(lipLid + properties.height + properties.depth) * page.ratio"
+                :x2="page.pWidth"
+                :y2="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
+                :text="properties.height"
             />
             <Arrow
-                :x="pWidth"
-                :y="(lipLid + 2 * props.dimensions.height + props.dimensions.depth) * ratio"
-                :x2="pWidth"
-                :y2="pHeight"
-                :text="props.dimensions.depth - lipLid + (props.dimensions.marginA || 0)"
+                :x="page.pWidth"
+                :y="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
+                :x2="page.pWidth"
+                :y2="page.pHeight"
+                :text="properties.depth - lipLid + properties.marginA"
             />
 
-            <Arrow v-if="dimLip"
+            <Arrow v-if="properties.lip"
                 :x="0"
-                :y="pHeight"
-                :x2="dimLip * ratio"
-                :y2="pHeight"
-                :text="dimLip"
+                :y="page.pHeight"
+                :x2="properties.lip * page.ratio"
+                :y2="page.pHeight"
+                :text="properties.lip"
                 reverseOffset
             />
             <Arrow
-                :x="dimLip * ratio"
-                :y="pHeight"
-                :x2="(dimLip + props.dimensions.height) * ratio"
-                :y2="pHeight"
-                :text="props.dimensions.height"
+                :x="properties.lip * page.ratio"
+                :y="page.pHeight"
+                :x2="(properties.lip + properties.height) * page.ratio"
+                :y2="page.pHeight"
+                :text="properties.height"
                 reverseOffset
             />
             <Arrow
-                :x="(dimLip + props.dimensions.height) * ratio"
-                :y="pHeight"
-                :x2="pWidth - (dimLip + props.dimensions.height) * ratio"
-                :y2="pHeight"
-                :text="props.dimensions.width"
+                :x="(properties.lip + properties.height) * page.ratio"
+                :y="page.pHeight"
+                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :y2="page.pHeight"
+                :text="properties.width"
                 reverseOffset
             />
             <Arrow
-                :x="pWidth - (dimLip + props.dimensions.height) * ratio"
-                :y="pHeight"
-                :x2="pWidth - (dimLip) * ratio"
-                :y2="pHeight"
-                :text="props.dimensions.height"
+                :x="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :y="page.pHeight"
+                :x2="page.pWidth - (properties.lip) * page.ratio"
+                :y2="page.pHeight"
+                :text="properties.height"
                 reverseOffset
             />
-            <Arrow v-if="dimLip"
-                :x="pWidth - (dimLip) * ratio"
-                :y="pHeight"
-                :x2="pWidth"
-                :y2="pHeight"
-                :text="dimLip"
+            <Arrow v-if="properties.lip"
+                :x="page.pWidth - (properties.lip) * page.ratio"
+                :y="page.pHeight"
+                :x2="page.pWidth"
+                :y2="page.pHeight"
+                :text="properties.lip"
                 reverseOffset
             />
         </g>

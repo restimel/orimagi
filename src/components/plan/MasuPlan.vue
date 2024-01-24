@@ -2,25 +2,14 @@
 import { computed } from 'vue';
 import Arrow from './Arrow.vue';
 
+import * as plan from './plan';
+
 const props = defineProps<{
     dimensions: AllValues;
 }>();
 
-const paperWidth = computed(() => props.dimensions['Paper width'] || 0);
-const paperHeight = computed(() => props.dimensions['Paper height'] || 0);
-
-const ratio = computed(() => {
-    const width = paperWidth.value;
-    const height =  paperHeight.value;
-
-    return  Math.min(1000 / width, 1000 / height, 1e12) || 1e-15;
-});
-const pWidth = computed(() => {
-    return paperWidth.value * ratio.value || 0;
-});
-const pHeight = computed(() => {
-    return paperHeight.value * ratio.value || 0;
-});
+const page = plan.page(props);
+const properties = plan.properties(props);
 
 const ready = computed(() => {
     const dimensions = props.dimensions;
@@ -28,15 +17,15 @@ const ready = computed(() => {
         dimensions.height,
         dimensions.width,
         dimensions.depth,
-        pWidth.value,
-        pHeight.value,
+        page.pWidth,
+        page.pHeight,
     ].every((val) => Number.isFinite(val));
 });
 
 const cosSin45 = 1 / Math.SQRT2;
 
 function getCoord(value: number): number {
-    return 500 + (value || 0) * ratio.value * cosSin45;
+    return 500 + (value || 0) * page.ratio * cosSin45;
 }
 </script>
 <template>
@@ -51,21 +40,21 @@ function getCoord(value: number): number {
             <Arrow
                 :x="0"
                 :y="0"
-                :x2="pWidth"
+                :x2="page.pWidth"
                 :y2="0"
-                :text="paperWidth"
+                :text="page.paperWidth"
             />
             <Arrow
                 :x="0"
-                :y="pHeight"
+                :y="page.pHeight"
                 :x2="0"
                 :y2="0"
-                :text="paperHeight"
+                :text="page.paperHeight"
             />
 
             <rect
                 class="page"
-                x="0" y="0" :width="pWidth" :height="pHeight"
+                x="0" y="0" :width="page.pWidth" :height="page.pHeight"
             />
         </g>
         <g class="diagonal">
@@ -81,124 +70,124 @@ function getCoord(value: number): number {
         <g>
             <circle
                 class="point"
-                :cx="getCoord(-props.dimensions.width / 2)"
-                :cy="getCoord(-props.dimensions.width / 2)"
+                :cx="getCoord(-properties.width / 2)"
+                :cy="getCoord(-properties.width / 2)"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord(-(props.dimensions.width / 2 + props.dimensions.height))"
-                :cy="getCoord(-(props.dimensions.width / 2 + props.dimensions.height))"
+                :cx="getCoord(-(properties.width / 2 + properties.height))"
+                :cy="getCoord(-(properties.width / 2 + properties.height))"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord(-(props.dimensions.width / 2 + props.dimensions.height * 2))"
-                :cy="getCoord(-(props.dimensions.width / 2 + props.dimensions.height * 2))"
-                :r="5"
-            />
-
-            <circle
-                class="point"
-                :cx="getCoord(props.dimensions.width / 2)"
-                :cy="getCoord(props.dimensions.width / 2)"
-                :r="5"
-            />
-            <circle
-                class="point"
-                :cx="getCoord((props.dimensions.width / 2 + props.dimensions.height))"
-                :cy="getCoord((props.dimensions.width / 2 + props.dimensions.height))"
-                :r="5"
-            />
-            <circle
-                class="point"
-                :cx="getCoord((props.dimensions.width / 2 + props.dimensions.height * 2))"
-                :cy="getCoord((props.dimensions.width / 2 + props.dimensions.height * 2))"
+                :cx="getCoord(-(properties.width / 2 + properties.height * 2))"
+                :cy="getCoord(-(properties.width / 2 + properties.height * 2))"
                 :r="5"
             />
 
             <circle
                 class="point"
-                :cx="getCoord(-props.dimensions.depth / 2)"
-                :cy="getCoord(props.dimensions.depth / 2)"
+                :cx="getCoord(properties.width / 2)"
+                :cy="getCoord(properties.width / 2)"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height))"
-                :cy="getCoord((props.dimensions.depth / 2 + props.dimensions.height))"
+                :cx="getCoord((properties.width / 2 + properties.height))"
+                :cy="getCoord((properties.width / 2 + properties.height))"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height * 2))"
-                :cy="getCoord((props.dimensions.depth / 2 + props.dimensions.height * 2))"
+                :cx="getCoord((properties.width / 2 + properties.height * 2))"
+                :cy="getCoord((properties.width / 2 + properties.height * 2))"
                 :r="5"
             />
 
             <circle
                 class="point"
-                :cx="getCoord(props.dimensions.depth / 2)"
-                :cy="getCoord(-props.dimensions.depth / 2)"
+                :cx="getCoord(-properties.depth / 2)"
+                :cy="getCoord(properties.depth / 2)"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord((props.dimensions.depth / 2 + props.dimensions.height))"
-                :cy="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height))"
+                :cx="getCoord(-(properties.depth / 2 + properties.height))"
+                :cy="getCoord((properties.depth / 2 + properties.height))"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord((props.dimensions.depth / 2 + props.dimensions.height * 2))"
-                :cy="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height * 2))"
+                :cx="getCoord(-(properties.depth / 2 + properties.height * 2))"
+                :cy="getCoord((properties.depth / 2 + properties.height * 2))"
+                :r="5"
+            />
+
+            <circle
+                class="point"
+                :cx="getCoord(properties.depth / 2)"
+                :cy="getCoord(-properties.depth / 2)"
+                :r="5"
+            />
+            <circle
+                class="point"
+                :cx="getCoord((properties.depth / 2 + properties.height))"
+                :cy="getCoord(-(properties.depth / 2 + properties.height))"
+                :r="5"
+            />
+            <circle
+                class="point"
+                :cx="getCoord((properties.depth / 2 + properties.height * 2))"
+                :cy="getCoord(-(properties.depth / 2 + properties.height * 2))"
                 :r="5"
             />
         </g>
         <g>
             <Arrow
-                :x="getCoord(-props.dimensions.width / 2)"
-                :y="getCoord(-props.dimensions.width / 2)"
+                :x="getCoord(-properties.width / 2)"
+                :y="getCoord(-properties.width / 2)"
                 :x2="500"
                 :y2="500"
-                :text="props.dimensions.width / 2"
+                :text="properties.width / 2"
             />
             <Arrow
-                :x="getCoord(-(props.dimensions.width / 2 + props.dimensions.height))"
-                :y="getCoord(-(props.dimensions.width / 2 + props.dimensions.height))"
-                :x2="getCoord(-(props.dimensions.width / 2))"
-                :y2="getCoord(-(props.dimensions.width / 2))"
-                :text="props.dimensions.height"
+                :x="getCoord(-(properties.width / 2 + properties.height))"
+                :y="getCoord(-(properties.width / 2 + properties.height))"
+                :x2="getCoord(-(properties.width / 2))"
+                :y2="getCoord(-(properties.width / 2))"
+                :text="properties.height"
             />
             <Arrow
-                :x="getCoord(-(props.dimensions.width / 2 + props.dimensions.height * 2))"
-                :y="getCoord(-(props.dimensions.width / 2 + props.dimensions.height * 2))"
-                :x2="getCoord(-(props.dimensions.width / 2 + props.dimensions.height))"
-                :y2="getCoord(-(props.dimensions.width / 2 + props.dimensions.height))"
-                :text="props.dimensions.height"
+                :x="getCoord(-(properties.width / 2 + properties.height * 2))"
+                :y="getCoord(-(properties.width / 2 + properties.height * 2))"
+                :x2="getCoord(-(properties.width / 2 + properties.height))"
+                :y2="getCoord(-(properties.width / 2 + properties.height))"
+                :text="properties.height"
             />
         </g>
         <g>
             <Arrow
-                :x="getCoord(-props.dimensions.depth / 2)"
-                :y="getCoord(props.dimensions.depth / 2)"
+                :x="getCoord(-properties.depth / 2)"
+                :y="getCoord(properties.depth / 2)"
                 :x2="500"
                 :y2="500"
-                :text="props.dimensions.depth / 2"
+                :text="properties.depth / 2"
             />
             <Arrow
-                :x="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height))"
-                :y="getCoord((props.dimensions.depth / 2 + props.dimensions.height))"
-                :x2="getCoord(-(props.dimensions.depth / 2))"
-                :y2="getCoord((props.dimensions.depth / 2))"
-                :text="props.dimensions.height"
+                :x="getCoord(-(properties.depth / 2 + properties.height))"
+                :y="getCoord((properties.depth / 2 + properties.height))"
+                :x2="getCoord(-(properties.depth / 2))"
+                :y2="getCoord((properties.depth / 2))"
+                :text="properties.height"
             />
             <Arrow
-                :x="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height * 2))"
-                :y="getCoord((props.dimensions.depth / 2 + props.dimensions.height * 2))"
-                :x2="getCoord(-(props.dimensions.depth / 2 + props.dimensions.height))"
-                :y2="getCoord((props.dimensions.depth / 2 + props.dimensions.height))"
-                :text="props.dimensions.height"
+                :x="getCoord(-(properties.depth / 2 + properties.height * 2))"
+                :y="getCoord((properties.depth / 2 + properties.height * 2))"
+                :x2="getCoord(-(properties.depth / 2 + properties.height))"
+                :y2="getCoord((properties.depth / 2 + properties.height))"
+                :text="properties.height"
             />
         </g>
     </svg>

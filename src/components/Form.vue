@@ -202,4 +202,9 @@ h3 {
 label {
   display: block;
 }
+
+fieldset {
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
 </style>

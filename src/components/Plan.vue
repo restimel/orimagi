@@ -32,5 +32,7 @@ const component = computed(() => {
 .plan {
     padding: 25px;
     width: var(--plan-width, 90vw);
+    max-height: 100vh;
+    overflow: auto;
 }
 </style>
