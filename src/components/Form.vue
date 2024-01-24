@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, defineEmits, reactive, watch } from 'vue';
+import { computed, defineEmits, reactive, ref, watch } from 'vue';
+import IconUnlock from './icons/IconUnlock.vue';
+import IconLock from './icons/IconLock.vue';
 
 const props = defineProps<{
     origami: OrigamiItem;
@@ -47,6 +49,8 @@ const properties: PropertyValues = reactive({
     ratio: 50,
 });
 
+const lockProperties = ref<Set<string>>(new Set());
+
 const displayedProperties = computed<Array<keyof Properties>>((): Array<keyof Properties> => {
     return Object.entries(propertyName.value).reduce((list, [key, value]) => {
         if (value) {
@@ -68,7 +72,13 @@ const dimensionValues = computed(() => {
     return computeDimension(properties);
 })
 
-function scale(value: number = 0, ratio: number): number {
+function scale(property: keyof PropertyValues, ratio: number): number {
+    const value = properties[property] || 0;
+
+    if (lockProperties.value.has(property)) {
+        return value;
+    }
+
     const scaled = value * ratio;
     return Math.round(scaled * 1_000_000) / 1_000_000;
 }
@@ -85,13 +95,13 @@ function reScale(dimName: string, originValue: number, targetValue: number, minM
     }
 
     const newProperties = {
-        width: scale(properties.width, ratio),
-        depth: scale(properties.depth, ratio),
-        height: scale(properties.height, ratio),
-        lip: scale(properties.lip, ratio),
-        dividers: scale(properties.dividers, ratio),
-        marginA: scale(properties.marginA, ratio),
-        marginB: scale(properties.marginB, ratio),
+        width: scale('width', ratio),
+        depth: scale('depth', ratio),
+        height: scale('height', ratio),
+        lip: scale('lip', ratio),
+        dividers: scale('dividers', ratio),
+        marginA: scale('marginA', ratio),
+        marginB: scale('marginB', ratio),
         ratio: properties.ratio,
     };
 
@@ -142,24 +152,28 @@ watch([properties, title], () => {
         <h1 class="green">{{ title }}</h1>
         <fieldset>
             <legend>Properties</legend>
-            <label
-                v-for="(name) of displayedProperties"
+            <label v-for="(name) of displayedProperties"
+                class="form-label"
                 :key="name"
             >
                 {{propertyName[name]}}
                 <input
                     :value="properties[name]"
+                    :disabled="lockProperties.has(name)"
                     @input="(evt) => {
                         const el = evt.currentTarget as HTMLInputElement;
                         properties[name] = parseFloat(el.value) || 0;
                     }"
                 >
+
+                <IconLock v-if="lockProperties.has(name)" class="btn-icon active" @click="() => lockProperties.delete(name)" />
+                <IconUnlock v-else class="btn-icon" @click="() => lockProperties.add(name)" />
             </label>
         </fieldset>
         <fieldset>
             <legend>Dimensions</legend>
-            <label
-                v-for="([name, value]) of dimensionValues"
+            <label v-for="([name, value]) of dimensionValues"
+                class="form-label"
                 :key="name"
             >
                 {{name}}
@@ -170,6 +184,7 @@ watch([properties, title], () => {
                         reScale(name, value, parseFloat(el.value) || 0);
                     }"
                 >
+                <span></span>
             </label>
         </fieldset>
     </div>
@@ -199,8 +214,12 @@ h3 {
   }
 }
 
-label {
-  display: block;
+.form-label {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 fieldset {
