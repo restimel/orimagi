@@ -23,11 +23,25 @@ const ready = computed(() => {
     ].every((val) => Number.isFinite(val));
 });
 
-const lipLid = computed(() => {
+const lidOver = computed(() => {
     const depth = properties.depth;
     const ratio = properties.ratio / 100;
 
-    return depth * ratio + properties.marginA;
+    return depth * ratio;
+});
+
+const lipLid = computed(() => {
+    if (lidOver.value < properties.marginA) {
+        return lidOver.value + properties.marginA;
+    }
+
+    return lidOver.value;
+});
+
+const lidCover = computed(() => {
+    const margin = lidOver.value < properties.marginA ? 0 : properties.marginA;
+
+    return properties.depth - lidOver.value + margin;
 });
 
 </script>
@@ -63,16 +77,16 @@ const lipLid = computed(() => {
             <rect
                 class="cut"
                 :x="0"
-                :y="(lipLid + properties.height + properties.depth) * page.ratio"
+                :y="page.pHeight - (lidCover + properties.height) * page.ratio"
                 :width="properties.lip * page.ratio"
-                :height="page.pHeight - (lipLid + properties.height + properties.depth) * page.ratio"
+                :height="(lidCover + properties.height) * page.ratio"
             />
             <rect
                 class="cut"
                 :x="page.pWidth - properties.lip * page.ratio"
-                :y="(lipLid + properties.height + properties.depth) * page.ratio"
+                :y="page.pHeight - (lidCover + properties.height) * page.ratio"
                 :width="properties.lip * page.ratio"
-                :height="page.pHeight - (lipLid + properties.height + properties.depth) * page.ratio"
+                :height="(lidCover + properties.height) * page.ratio"
             />
         </g>
         <g>
@@ -154,6 +168,35 @@ const lipLid = computed(() => {
                 :y1="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
                 :y2="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
             />
+
+            <line
+                class="fold"
+                :x1="(properties.lip) * page.ratio"
+                :x2="(properties.lip + properties.height) * page.ratio"
+                :y1="(lipLid) * page.ratio"
+                :y2="(lipLid + properties.height) * page.ratio"
+            />
+            <line
+                class="fold"
+                :x1="page.pWidth - (properties.lip) * page.ratio"
+                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :y1="(lipLid) * page.ratio"
+                :y2="(lipLid + properties.height) * page.ratio"
+            />
+            <line
+                class="fold"
+                :x1="(properties.lip) * page.ratio"
+                :x2="(properties.lip + properties.height) * page.ratio"
+                :y1="page.pHeight - (lidCover) * page.ratio"
+                :y2="page.pHeight - (lidCover + properties.height) * page.ratio"
+            />
+            <line
+                class="fold"
+                :x1="page.pWidth - (properties.lip) * page.ratio"
+                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :y1="page.pHeight - (lidCover) * page.ratio"
+                :y2="page.pHeight - (lidCover + properties.height) * page.ratio"
+            />
         </g>
         <g>
             <Arrow
@@ -186,10 +229,10 @@ const lipLid = computed(() => {
             />
             <Arrow
                 :x="page.pWidth"
-                :y="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
+                :y="page.pHeight - (lidCover) * page.ratio"
                 :x2="page.pWidth"
                 :y2="page.pHeight"
-                :text="properties.depth - lipLid + properties.marginA"
+                :text="lidCover"
             />
 
             <Arrow v-if="properties.lip"

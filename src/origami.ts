@@ -38,7 +38,7 @@ const origamis: OrigamiItem[] = [{
             return dim.width + 2 * dim.height + 2 * (dim.lip || 0);
         },
         'Paper height': (dim: PropertyValues) => {
-            return 2 * dim.depth + 2 * dim.height + 2 * (dim.lip || 0) + (dim.marginA || 0);
+            return 2 * dim.depth + 2 * dim.height + (dim.marginA || 0);
         },
         'Volume': (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;

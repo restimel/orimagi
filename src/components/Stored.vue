@@ -38,32 +38,37 @@ const load = (item: OrigamiSaved) => {
 </script>
 
 <template>
-    <div class="storage">
-        <ul class="stored-list">
-            <li v-for="item of props.list"
-                :key="item.id"
-                :title="item.name"
-            >
-                <component :is="getIcon(item.type)"
-                    class="btn-icon stored-item"
-                    @click="load(item)"
-                />
-            </li>
-            <li
-                title="save"
-            >
-                <IconSave
-                    class="btn-icon active stored-item"
-                    @click="save"
-                />
-            </li>
-        </ul>
-        <input
-            placeholder="saved name"
-            v-model="saveName"
-            class="save-name"
-        />
-    </div>
+    <form
+        class="storage"
+        @submit.prevent="save"
+    >
+        <label>
+            <ul class="stored-list">
+                <li v-for="item of props.list"
+                    :key="item.id"
+                    :title="item.name"
+                >
+                    <component :is="getIcon(item.type)"
+                        class="btn-icon stored-item"
+                        @click.stop="load(item)"
+                    />
+                </li>
+                <li
+                    title="save"
+                >
+                    <IconSave
+                        class="btn-icon active stored-item"
+                        @click.stop="save"
+                    />
+                </li>
+            </ul>
+            <input
+                placeholder="saved name"
+                v-model="saveName"
+                class="save-name"
+            />
+        </label>
+    </form>
 </template>
 
 <style scoped>
