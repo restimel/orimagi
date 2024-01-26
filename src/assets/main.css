@@ -71,12 +71,14 @@ svg.origami {
 
 .origami .arrow {
   stroke-width: 3;
+  stroke: var(--color-brand-primary);
 }
 
 .origami .label-value {
   font-size: 25px;
   text-anchor: middle;
   dominant-baseline: middle;
+  stroke: var(--color-brand-primary);
 }
 
 .origami g:hover > :is(.arrow, .label-value) {

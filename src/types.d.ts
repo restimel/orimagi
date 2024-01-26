@@ -39,3 +39,6 @@ type AllValues = DimensionValues & PropertyValues;
 type PlanProps = {
     dimensions: AllValues;
 };
+
+type Point = [number, number];
+type Line = [Point, Point];

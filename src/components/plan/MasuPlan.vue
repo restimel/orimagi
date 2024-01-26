@@ -25,8 +25,120 @@ const ready = computed(() => {
 const cosSin45 = 1 / Math.SQRT2;
 
 function getCoord(value: number): number {
-    return 500 + (value || 0) * page.ratio * cosSin45;
+    return 500 + value * cosSin45;
 }
+
+function getAB(value: number, orientation: boolean): [number, number] {
+    const a = orientation ? 1 : -1;
+    const y = orientation ? 1000 - value : value;
+    const b = y - a * value;
+
+    return [a, b];
+}
+
+function getLine(value: number, orientation: boolean): Line {
+    const [a, b] = getAB(value, orientation);
+
+    return [
+        [0, b],
+        [1000, 1000 * a + b],
+    ];
+}
+
+function intersection(value1: number, value2: number): Point {
+    const [a1, b1] = getAB(value1, false);
+    const [a2, b2] = getAB(value2, true);
+
+    const x = (b2 - b1) / (a1 - a2);
+    const y = a1 * x + b1;
+
+    return [x, y];
+}
+
+const point1 = computed(() => {
+    const value = -properties.width / 2;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point2 = computed(() => {
+    const value = -(properties.width / 2 + properties.height);
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point3 = computed(() => {
+    const value = -(properties.width / 2 + properties.height * 2);
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point1bis = computed(() => {
+    const value = properties.width / 2;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point2bis = computed(() => {
+    const value = properties.width / 2 + properties.height;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point3bis = computed(() => {
+    const value = properties.width / 2 + properties.height * 2;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point4 = computed(() => {
+    const value = -properties.depth / 2;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point5 = computed(() => {
+    const value = -(properties.depth / 2 + properties.height);
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point6 = computed(() => {
+    const value = -(properties.depth / 2 + properties.height * 2);
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point4bis = computed(() => {
+    const value = properties.depth / 2;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point5bis = computed(() => {
+    const value = properties.depth / 2 + properties.height;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
+const point6bis = computed(() => {
+    const value = properties.depth / 2 + properties.height * 2;
+    const valueRatio = value * page.ratio;
+
+    return getCoord(valueRatio) || 0;
+});
+
 </script>
 <template>
     <svg
@@ -36,6 +148,14 @@ function getCoord(value: number): number {
 
         viewBox="-100 -100 1200 1200"
     >
+        <defs>
+            <clipPath id="page">
+                <rect
+                    class="page"
+                    x="0" y="0" :width="page.pWidth" :height="page.pHeight"
+                />
+            </clipPath>
+        </defs>
         <g>
             <Arrow
                 :x="0"
@@ -68,125 +188,253 @@ function getCoord(value: number): number {
             />
         </g>
         <g>
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point1, false)[0][0]"
+                :y1="getLine(point1, false)[0][1]"
+                :x2="getLine(point1, false)[1][0]"
+                :y2="getLine(point1, false)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point2, false)[0][0]"
+                :y1="getLine(point2, false)[0][1]"
+                :x2="getLine(point2, false)[1][0]"
+                :y2="getLine(point2, false)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point3, false)[0][0]"
+                :y1="getLine(point3, false)[0][1]"
+                :x2="getLine(point3, false)[1][0]"
+                :y2="getLine(point3, false)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point1bis, false)[0][0]"
+                :y1="getLine(point1bis, false)[0][1]"
+                :x2="getLine(point1bis, false)[1][0]"
+                :y2="getLine(point1bis, false)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point2bis, false)[0][0]"
+                :y1="getLine(point2bis, false)[0][1]"
+                :x2="getLine(point2bis, false)[1][0]"
+                :y2="getLine(point2bis, false)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point3bis, false)[0][0]"
+                :y1="getLine(point3bis, false)[0][1]"
+                :x2="getLine(point3bis, false)[1][0]"
+                :y2="getLine(point3bis, false)[1][1]"
+            />
+
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point4, true)[0][0]"
+                :y1="getLine(point4, true)[0][1]"
+                :x2="getLine(point4, true)[1][0]"
+                :y2="getLine(point4, true)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point5, true)[0][0]"
+                :y1="getLine(point5, true)[0][1]"
+                :x2="getLine(point5, true)[1][0]"
+                :y2="getLine(point5, true)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point6, true)[0][0]"
+                :y1="getLine(point6, true)[0][1]"
+                :x2="getLine(point6, true)[1][0]"
+                :y2="getLine(point6, true)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point4bis, true)[0][0]"
+                :y1="getLine(point4bis, true)[0][1]"
+                :x2="getLine(point4bis, true)[1][0]"
+                :y2="getLine(point4bis, true)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point5bis, true)[0][0]"
+                :y1="getLine(point5bis, true)[0][1]"
+                :x2="getLine(point5bis, true)[1][0]"
+                :y2="getLine(point5bis, true)[1][1]"
+            />
+            <line
+                class="fold"
+                clip-path="url(#page)"
+                :x1="getLine(point6bis, true)[0][0]"
+                :y1="getLine(point6bis, true)[0][1]"
+                :x2="getLine(point6bis, true)[1][0]"
+                :y2="getLine(point6bis, true)[1][1]"
+            />
+
+            <line
+                class="fold"
+                :x1="intersection(point1, point4)[0]"
+                :y1="intersection(point1, point4)[1]"
+                :x2="intersection(point2, point5)[0]"
+                :y2="intersection(point2, point5)[1]"
+            />
+            <line
+                class="fold"
+                :x1="intersection(point1bis, point4bis)[0]"
+                :y1="intersection(point1bis, point4bis)[1]"
+                :x2="intersection(point2bis, point5bis)[0]"
+                :y2="intersection(point2bis, point5bis)[1]"
+            />
+            <line
+                class="fold"
+                :x1="intersection(point1, point4bis)[0]"
+                :y1="intersection(point1, point4bis)[1]"
+                :x2="intersection(point2, point5bis)[0]"
+                :y2="intersection(point2, point5bis)[1]"
+            />
+            <line
+                class="fold"
+                :x1="intersection(point1bis, point4)[0]"
+                :y1="intersection(point1bis, point4)[1]"
+                :x2="intersection(point2bis, point5)[0]"
+                :y2="intersection(point2bis, point5)[1]"
+            />
+        </g>
+        <g>
             <circle
                 class="point"
-                :cx="getCoord(-properties.width / 2)"
-                :cy="getCoord(-properties.width / 2)"
+                :cx="point1"
+                :cy="point1"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord(-(properties.width / 2 + properties.height))"
-                :cy="getCoord(-(properties.width / 2 + properties.height))"
+                :cx="point2"
+                :cy="point2"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord(-(properties.width / 2 + properties.height * 2))"
-                :cy="getCoord(-(properties.width / 2 + properties.height * 2))"
+                :cx="point3"
+                :cy="point3"
                 :r="5"
             />
 
             <circle
                 class="point"
-                :cx="getCoord(properties.width / 2)"
-                :cy="getCoord(properties.width / 2)"
+                :cx="point1bis"
+                :cy="point1bis"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord((properties.width / 2 + properties.height))"
-                :cy="getCoord((properties.width / 2 + properties.height))"
+                :cx="point2bis"
+                :cy="point2bis"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord((properties.width / 2 + properties.height * 2))"
-                :cy="getCoord((properties.width / 2 + properties.height * 2))"
-                :r="5"
-            />
-
-            <circle
-                class="point"
-                :cx="getCoord(-properties.depth / 2)"
-                :cy="getCoord(properties.depth / 2)"
-                :r="5"
-            />
-            <circle
-                class="point"
-                :cx="getCoord(-(properties.depth / 2 + properties.height))"
-                :cy="getCoord((properties.depth / 2 + properties.height))"
-                :r="5"
-            />
-            <circle
-                class="point"
-                :cx="getCoord(-(properties.depth / 2 + properties.height * 2))"
-                :cy="getCoord((properties.depth / 2 + properties.height * 2))"
+                :cx="point3bis"
+                :cy="point3bis"
                 :r="5"
             />
 
             <circle
                 class="point"
-                :cx="getCoord(properties.depth / 2)"
-                :cy="getCoord(-properties.depth / 2)"
+                :cx="point1"
+                :cy="point1bis"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord((properties.depth / 2 + properties.height))"
-                :cy="getCoord(-(properties.depth / 2 + properties.height))"
+                :cx="point2"
+                :cy="point2bis"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="getCoord((properties.depth / 2 + properties.height * 2))"
-                :cy="getCoord(-(properties.depth / 2 + properties.height * 2))"
+                :cx="point3"
+                :cy="point3bis"
+                :r="5"
+            />
+
+            <circle
+                class="point"
+                :cx="point4bis"
+                :cy="point4"
+                :r="5"
+            />
+            <circle
+                class="point"
+                :cx="point5bis"
+                :cy="point5"
+                :r="5"
+            />
+            <circle
+                class="point"
+                :cx="point6bis"
+                :cy="point6"
                 :r="5"
             />
         </g>
         <g>
             <Arrow
-                :x="getCoord(-properties.width / 2)"
-                :y="getCoord(-properties.width / 2)"
+                :x="point1"
+                :y="point1"
                 :x2="500"
                 :y2="500"
                 :text="properties.width / 2"
             />
             <Arrow
-                :x="getCoord(-(properties.width / 2 + properties.height))"
-                :y="getCoord(-(properties.width / 2 + properties.height))"
-                :x2="getCoord(-(properties.width / 2))"
-                :y2="getCoord(-(properties.width / 2))"
+                :x="point2"
+                :y="point2"
+                :x2="point1"
+                :y2="point1"
                 :text="properties.height"
             />
             <Arrow
-                :x="getCoord(-(properties.width / 2 + properties.height * 2))"
-                :y="getCoord(-(properties.width / 2 + properties.height * 2))"
-                :x2="getCoord(-(properties.width / 2 + properties.height))"
-                :y2="getCoord(-(properties.width / 2 + properties.height))"
+                :x="point3"
+                :y="point3"
+                :x2="point2"
+                :y2="point2"
                 :text="properties.height"
             />
         </g>
         <g>
             <Arrow
-                :x="getCoord(-properties.depth / 2)"
-                :y="getCoord(properties.depth / 2)"
+                :x="point4"
+                :y="point4bis"
                 :x2="500"
                 :y2="500"
                 :text="properties.depth / 2"
             />
             <Arrow
-                :x="getCoord(-(properties.depth / 2 + properties.height))"
-                :y="getCoord((properties.depth / 2 + properties.height))"
-                :x2="getCoord(-(properties.depth / 2))"
-                :y2="getCoord((properties.depth / 2))"
+                :x="point5"
+                :y="point5bis"
+                :x2="point4"
+                :y2="point4bis"
                 :text="properties.height"
             />
             <Arrow
-                :x="getCoord(-(properties.depth / 2 + properties.height * 2))"
-                :y="getCoord((properties.depth / 2 + properties.height * 2))"
-                :x2="getCoord(-(properties.depth / 2 + properties.height))"
-                :y2="getCoord((properties.depth / 2 + properties.height))"
+                :x="point6"
+                :y="point6bis"
+                :x2="point5"
+                :y2="point5bis"
                 :text="properties.height"
             />
         </g>
