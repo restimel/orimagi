@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Arrow from './Arrow.vue';
+import Arrow from './common/Arrow.vue';
 
 import * as plan from './plan';
 

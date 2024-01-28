@@ -1,3 +1,4 @@
+import CardHolderIcon from '@/components/icons/IconCardHolder.vue';
 import LidIcon from '@/components/icons/IconLid.vue';
 import MasuIcon from '@/components/icons/IconMasu.vue';
 
@@ -42,6 +43,23 @@ const origamis: OrigamiItem[] = [{
         },
         'Volume': (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
+        },
+    },
+}, {
+    id: 'CardHolder',
+    name: 'card holder',
+    icon: CardHolderIcon,
+    properties: {
+        width: true,
+        height: false,
+        depth: true,
+    },
+    dimension: {
+        'Paper width': (dim: PropertyValues) => {
+            return 4 * dim.width + 2 * dim.depth;
+        },
+        'Paper height': (dim: PropertyValues) => {
+            return dim.width;
         },
     },
 }];

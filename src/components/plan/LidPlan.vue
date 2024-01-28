@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import Arrow from './Arrow.vue';
+import Arrow from './common/Arrow.vue';
+import CutArea from './common/CutArea.vue';
 
 import * as plan from './plan';
 
@@ -53,19 +54,16 @@ const lidCover = computed(() => {
 
         viewBox="-100 -100 1200 1200"
     >
+        <defs>
+            <CutArea />
+        </defs>
         <g  v-if="properties.lip">
-            <pattern id="stripes" patternUnits="userSpaceOnUse" width="10" height="10">
-                <line x1="0" y1="0" x2="10" y2="10" />
-                <line x1="0" y1="10" x2="10" y2="0" />
-            </pattern>
-
             <rect
-                class="cut2"
+                class="cut"
                 :x="0"
                 :y="0"
                 :width="properties.lip * page.ratio"
                 :height="(lipLid + properties.height) * page.ratio"
-                fill="url(#stripes)"
             />
             <rect
                 class="cut"

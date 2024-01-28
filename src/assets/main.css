@@ -89,11 +89,5 @@ svg.origami {
 .origami .cut {
   stroke: none;
   /* fill: rgba(200, 200, 200, 0.5); */
-  fill: url(#stripes);
-}
-
-.origami #stripes {
-  fill: none;
-  stroke: rgba(150, 150, 150, 1);
-  stroke-width: 1;
+  fill: url(#cutArea);
 }
