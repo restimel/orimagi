@@ -7,6 +7,7 @@ import Plan from './components/Plan.vue';
 import Stored from './components/Stored.vue';
 
 import origamis, { getOrigami } from './origami';
+import Preview from './components/Preview.vue';
 
 const currentSelection = ref(origamis[0]);
 const result = ref<AllValues>({
@@ -43,6 +44,10 @@ const load = (item: OrigamiSaved) => {
                 :origami="currentSelection"
                 :values="result"
                 @change="(value) => result = value"
+            />
+            <Preview
+                :dimensions="result"
+                :selected="currentSelection.id"
             />
             <Stored
                 :list="saved"
@@ -97,7 +102,11 @@ header {
     header .wrapper {
         display: flex;
         place-items: flex-start;
-        flex-wrap: wrap;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        height: 100%;
+        gap: 15px;
     }
 }
 </style>

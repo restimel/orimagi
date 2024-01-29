@@ -1,19 +1,32 @@
 <script setup lang="ts">
-const width = 10
-const height = 7
-const depth = 15
-const lidCover = 6
+import { computed } from 'vue';
 
+const props = defineProps<{
+    dimensions?: AllValues;
+}>();
+
+const width = computed(() => (props.dimensions?.width ?? 10) * 100);
+const height = computed(() => (props.dimensions?.height ?? 7) * 100);
+const depth = computed(() => (props.dimensions?.depth ?? 15) * 100);
+const lidCover = computed(() => {
+    const ratio = props.dimensions?.ratio;
+
+    if (ratio === undefined) {
+      return 600;
+    }
+
+    return ratio * depth.value / 100;
+});
 
 const dAngle = Math.PI / 6;
-const dx = depth * Math.cos(dAngle);
-const dy = depth * Math.sin(dAngle);
-const lcx = lidCover * Math.cos(dAngle);
-const lcy = lidCover * Math.sin(dAngle);
+const dx = computed(() => depth.value * Math.cos(dAngle));
+const dy = computed(() => depth.value * Math.sin(dAngle));
+const lcx = computed(() => lidCover.value * Math.cos(dAngle));
+const lcy = computed(() => lidCover.value * Math.sin(dAngle));
 
 const wAngle = Math.PI / 5;
-const wx = width * Math.cos(wAngle);
-const wy = width * Math.sin(wAngle);
+const wx = computed(() => width.value * Math.cos(wAngle));
+const wy = computed(() => width.value * Math.sin(wAngle));
 
 </script>
 
@@ -22,7 +35,7 @@ const wy = width * Math.sin(wAngle);
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="17"
-    class="iconify iconify--mdi"
+    class="iconify iconify--mdi icon"
     :viewBox="`0 0 ${dx + wx} ${dy + wy + height}`"
     preserveAspectRatio="xMidYMid meet"
     aria-hidden="true"
@@ -53,15 +66,15 @@ svg {
     fill: none;
 }
 .lid-main {
-    fill: lightgrey;
+    fill: var(--cube-front-top-alt);
 }
 .lid-cover {
-    fill: #e3e3e3;
+    fill: var(--cube-front-top);
 }
 .front-side {
-    fill: #ececec;
+    fill: var(--cube-front-side);
 }
 .front-main {
-    fill: white;
+    fill: var(--cube-front-main);
 }
 </style>

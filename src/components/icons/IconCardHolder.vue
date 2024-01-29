@@ -1,15 +1,21 @@
 <script setup lang="ts">
-const depth = 5
-const width = 17
-const height = width;
+import { computed } from 'vue';
+
+const props = defineProps<{
+    dimensions?: AllValues;
+}>();
+
+const width = computed(() => (props.dimensions?.width ?? 17) * 100);
+const height = computed(() => width.value);
+const depth = computed(() => (props.dimensions?.depth ?? 5) * 100);
 
 const dAngle = Math.PI / 6;
-const dx = depth * Math.cos(dAngle);
-const dy = depth * Math.sin(dAngle);
+const dx = computed(() => depth.value * Math.cos(dAngle));
+const dy = computed(() => depth.value * Math.sin(dAngle));
 
 const wAngle = Math.PI / 5;
-const wx = width * Math.cos(wAngle);
-const wy = width * Math.sin(wAngle);
+const wx = computed(() => width.value * Math.cos(wAngle));
+const wy = computed(() => width.value * Math.sin(wAngle));
 
 </script>
 
@@ -18,12 +24,16 @@ const wy = width * Math.sin(wAngle);
     xmlns="http://www.w3.org/2000/svg"
     width="20"
     height="17"
-    class="iconify iconify--mdi"
+    class="iconify iconify--mdi icon"
     :viewBox="`0 0 ${dx + wx} ${dy + wy + height}`"
     preserveAspectRatio="xMidYMid meet"
     aria-hidden="true"
     role="img"
   >
+    <polygon
+        class="back-base"
+        :points="`${dx},${height} ${dx+wx},${height+wy} ${wx},${height+dy+wy} 0,${dy+height}`"
+    />
     <polygon
         class="back-main"
         :points="`${dx},0 ${dx+wx},${wy} ${dx+wx},${wy+height} ${dx},${height}`"
@@ -53,19 +63,22 @@ svg {
     fill: none;
 }
 
+.back-base {
+    fill: var(--cube-back-base);
+}
 .back-main {
-    fill: darkgrey;
+    fill: var(--cube-back-main);
 }
 .back-side {
-    fill: darkgrey;
+    fill: var(--cube-back-side);
 }
 .front-side {
-    fill: white;
+    fill: var(--cube-front-side);
 }
 .front-flip1 {
-    fill: lightgray;
+    fill: var(--cube-front-main-alt);
 }
 .front-flip2 {
-    fill: white;
+    fill: var(--cube-front-main);
 }
 </style>

@@ -38,6 +38,30 @@
   --section-gap: 160px;
 
   --color-brand-primary: var(--vt-vue-color);
+
+  /* SVG color
+   *          Front               Back
+   *       +---------+   |     +---------+
+   *      /    3    /|   |    /|        /|
+   *     /         / |   |   / |   5   / |
+   *    +---------+  |   |  +---------+  |
+   *    |         |2 |   |  | 4|      |  |
+   *    |    1    |  +   |  |  +------|--+
+   *    |         | /    |  | /       | /
+   *    |         |/     |  |/    6   |/
+   *    +---------+      |  +---------+
+   *
+   */
+  --cube-front-main: #ffffff; /* 1 */
+  --cube-front-side: #eeeeee; /* 2 */
+  --cube-front-top: #dddddd; /* 3 */
+  --cube-back-side: #999999; /* 4 */
+  --cube-back-main: #666666; /* 5 */
+  --cube-back-base: #000000; /* 6 */
+
+  --cube-front-main-alt: #d0d0d0; /* 1 alt */
+  --cube-front-side-alt: #c0c0c0; /* 2 alt */
+  --cube-front-top-alt: #b0b0b0; /* 3 alt */
 }
 
 @media (prefers-color-scheme: dark) {

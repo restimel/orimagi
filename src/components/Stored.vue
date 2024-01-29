@@ -50,6 +50,7 @@ const load = (item: OrigamiSaved) => {
                 >
                     <component :is="getIcon(item.type)"
                         class="btn-icon stored-item"
+                        :dimensions="item.values"
                         @click.stop="load(item)"
                     />
                 </li>

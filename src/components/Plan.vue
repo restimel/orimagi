@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import CardHolderPlan from './plan/CardHolderPlan.vue';
 import LidPlan from './plan/LidPlan.vue';
 import MasuPlan from './plan/MasuPlan.vue';
+import { getIcon } from '@/origami';
 
 const props = defineProps<{
     selected: string;

@@ -91,3 +91,8 @@ svg.origami {
   /* fill: rgba(200, 200, 200, 0.5); */
   fill: url(#cutArea);
 }
+
+svg.icon {
+  stroke-width: 10;
+  stroke-linejoin: round;
+}
