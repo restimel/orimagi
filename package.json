@@ -1,15 +1,16 @@
 {
-  "name": "origami",
-  "version": "0.0.0",
+  "name": "orimagi",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
-    "build-only": "vite build",
+    "build-only": "vite build --base=/orimagi/",
     "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore"
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "push": "git push origin main && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "vue": "^3.3.11"

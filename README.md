@@ -1,4 +1,6 @@
-# orimagi
+# Orimagi
+
+[Run the application](https://restimel.github.io/orimagi/)
 
 ## Contribute
 
