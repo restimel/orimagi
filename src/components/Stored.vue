@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineEmits, reactive, ref, watch } from 'vue';
+import { defineEmits, ref } from 'vue';
 import IconSave from './icons/IconSave.vue';
 import { getIcon } from '../origami';
 
