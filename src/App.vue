@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+import Language from './components/Language.vue';
 import Menu from './components/Menu.vue';
 import Form from './components/Form.vue';
 import Plan from './components/Plan.vue';
@@ -37,6 +38,7 @@ const load = (item: OrigamiSaved) => {
 
 <template>
     <header>
+        <Language class="language" />
         <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
 
         <div class="wrapper">
@@ -108,5 +110,11 @@ header {
         height: 100%;
         gap: 15px;
     }
+}
+
+.language {
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 </style>

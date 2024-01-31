@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import _ from '@/i18n';
 import { computed, defineEmits, reactive, ref, watch } from 'vue';
 import IconUnlock from './icons/IconUnlock.vue';
 import IconLock from './icons/IconLock.vue';
@@ -30,13 +31,13 @@ const propertyName = computed<Properties>(() => {
     const properties = props.origami.properties;
 
     return {
-        width: defaultValue(properties.width, 'Width'),
-        depth: defaultValue(properties.depth, 'Depth'),
-        height: defaultValue(properties.height, 'Height'),
-        lip: defaultValue(properties.lip, 'Lip size'),
-        marginA: defaultValue(properties.marginA, 'Margin'),
-        marginB: defaultValue(properties.marginB, 'Margin'),
-        ratio: defaultValue(properties.ratio, 'Margin'),
+        width: defaultValue(properties.width, _.value('Width')),
+        depth: defaultValue(properties.depth, _.value('Depth')),
+        height: defaultValue(properties.height, _.value('Height')),
+        lip: defaultValue(properties.lip, _.value('Lip size')),
+        marginA: defaultValue(properties.marginA, _.value('Margin')),
+        marginB: defaultValue(properties.marginB, _.value('Margin')),
+        ratio: defaultValue(properties.ratio, _.value('Margin')),
     };
 });
 
@@ -163,7 +164,9 @@ watch([properties, title], () => {
     <div class="main-form">
         <h1 class="green">{{ title }}</h1>
         <fieldset>
-            <legend>Properties</legend>
+            <legend>
+                {{_('Properties')}}
+            </legend>
             <label v-for="(name) of displayedProperties"
                 class="form-label"
                 :key="name"
@@ -183,7 +186,9 @@ watch([properties, title], () => {
             </label>
         </fieldset>
         <fieldset>
-            <legend>Dimensions</legend>
+            <legend>
+                {{_('Dimensions')}}
+            </legend>
             <label v-for="([name, value]) of dimensionValues"
                 class="form-label"
                 :key="name"

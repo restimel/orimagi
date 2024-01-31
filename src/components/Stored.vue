@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import _ from '@/i18n';
 import { defineEmits, ref } from 'vue';
 import IconSave from './icons/IconSave.vue';
 import { getIcon } from '../origami';
@@ -55,7 +56,7 @@ const load = (item: OrigamiSaved) => {
                     />
                 </li>
                 <li
-                    title="save"
+                    :title="_('save')"
                 >
                     <IconSave
                         class="btn-icon active stored-item"
@@ -64,7 +65,7 @@ const load = (item: OrigamiSaved) => {
                 </li>
             </ul>
             <input
-                placeholder="saved name"
+                :placeholder="_('saved name')"
                 v-model="saveName"
                 class="save-name"
             />
