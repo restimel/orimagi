@@ -169,7 +169,7 @@ watch([properties, title], () => {
 
 <template>
     <div class="main-form">
-        <h1 class="green">{{ title }}</h1>
+        <h1 class="green">{{ title() }}</h1>
         <fieldset
             :class="{
                 invalid: !isValid,
@@ -204,7 +204,7 @@ watch([properties, title], () => {
                 class="form-label"
                 :key="name"
             >
-                {{name}}
+                {{origami.dimensionNames[name]?.() ?? name}}
                 <input
                     :value="value"
                     @change="(evt) => {

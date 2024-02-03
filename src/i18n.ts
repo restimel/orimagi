@@ -50,6 +50,30 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: '',
         fr: 'Dimensions',
     }],
+    ['Paper width', {
+        en: '',
+        fr: 'Largeur du papier',
+    }],
+    ['Paper height', {
+        en: '',
+        fr: 'Hauteur du papier',
+    }],
+    ['Volume', {
+        en: '',
+        fr: 'Volume',
+    }],
+    ['Masu box', {
+        en: '',
+        fr: 'Boîte Masu',
+    }],
+    ['lid box', {
+        en: 'Lid box',
+        fr: 'Boîte avec couvercle',
+    }],
+    ['V card holder', {
+        en: 'V card holder',
+        fr: 'Porte-carte en V',
+    }],
 ]);
 
 const currentLocale = ref<Locale>('fr');
@@ -81,8 +105,13 @@ const i18n = computed(() => {
 
     return (key: string) => {
         const value = dict.get(key)?.[locale];
+        const isString = typeof value === 'string';
 
-        if (!value || typeof value !== 'string') {
+        if (!(isString && value)) {
+            if (!isString) {
+                console.warn('missing translation for "%s"', key);
+            }
+
             return key;
         }
 

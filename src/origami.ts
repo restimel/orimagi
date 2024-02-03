@@ -1,10 +1,11 @@
+import _ from '@/i18n';
 import CardHolderIcon from '@/components/icons/IconCardHolder.vue';
 import LidIcon from '@/components/icons/IconLid.vue';
 import MasuIcon from '@/components/icons/IconMasu.vue';
 
 const origamis: OrigamiItem[] = [{
     id: 'Masu',
-    name: 'Masu box',
+    name: () => _.value('Masu box'),
     icon: MasuIcon,
     properties: {
         width: true,
@@ -12,22 +13,28 @@ const origamis: OrigamiItem[] = [{
         depth: true,
     },
     dimension: {
-        'Paper width': (dim: PropertyValues) => {
+        paperWidth: (dim: PropertyValues) => {
             return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
         },
-        'Paper height': (dim: PropertyValues) => {
+        paperHeight: (dim: PropertyValues) => {
             return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
         },
-        'Volume': (dim: PropertyValues) => {
+        paperVolume: (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
         },
+    },
+    dimensionNames: {
+        paperWidth: () => _.value('Paper width'),
+        paperHeight: () => _.value('Paper height'),
+        paperVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
         return values.width > 0 && values.height > 0 && values.depth > 0;
     },
+    resource: 'https://www.youtube.com/watch?v=WYvvkrYawpk',
 }, {
     id: 'Lid',
-    name: 'lid box',
+    name: () => _.value('lid box'),
     icon: LidIcon,
     properties: {
         width: true,
@@ -38,15 +45,20 @@ const origamis: OrigamiItem[] = [{
         ratio: 'lid split (%)',
     },
     dimension: {
-        'Paper width': (dim: PropertyValues) => {
+        paperWidth: (dim: PropertyValues) => {
             return dim.width + 2 * dim.height + 2 * (dim.lip || 0);
         },
-        'Paper height': (dim: PropertyValues) => {
+        paperHeight: (dim: PropertyValues) => {
             return 2 * dim.depth + 2 * dim.height + (dim.marginA || 0);
         },
-        'Volume': (dim: PropertyValues) => {
+        paperVolume: (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
         },
+    },
+    dimensionNames: {
+        paperWidth: () => _.value('Paper width'),
+        paperHeight: () => _.value('Paper height'),
+        paperVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
         const lip = values.lip;
@@ -58,9 +70,10 @@ const origamis: OrigamiItem[] = [{
             && typeof marginA === 'number' && marginA >=0 && marginA <= values.height
             && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;
     },
+    resource: '',
 }, {
     id: 'CardHolder',
-    name: 'card holder',
+    name: () => _.value('V card holder'),
     icon: CardHolderIcon,
     properties: {
         width: true,
@@ -68,17 +81,23 @@ const origamis: OrigamiItem[] = [{
         depth: true,
     },
     dimension: {
-        'Paper width': (dim: PropertyValues) => {
+        paperWidth: (dim: PropertyValues) => {
             return 4 * dim.width + 2 * dim.depth;
         },
-        'Paper height': (dim: PropertyValues) => {
+        paperHeight: (dim: PropertyValues) => {
             return dim.width;
         },
+    },
+    dimensionNames: {
+        paperWidth: () => _.value('Paper width'),
+        paperHeight: () => _.value('Paper height'),
+        paperVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
         return values.width > 0 && values.depth > 0
             && values.depth <= values.width;
     },
+    resource: 'https://www.youtube.com/watch?v=fEgUx_0-1Qs',
 }];
 
 export default origamis;

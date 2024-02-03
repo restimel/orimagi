@@ -17,8 +17,8 @@ function minMax(value: number = 0, min: number, max: number) {
 }
 
 export function page(props: PlanProps) {
-    const paperWidth = computed(() => props.dimensions['Paper width'] || 0);
-    const paperHeight = computed(() => props.dimensions['Paper height'] || 0);
+    const paperWidth = computed(() => props.dimensions.paperWidth || 0);
+    const paperHeight = computed(() => props.dimensions.paperWidth || 0);
 
     const ratio = computed(() => {
         const width = paperWidth.value;

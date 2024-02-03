@@ -1,11 +1,13 @@
 
 type OrigamiItem = {
     id: string;
-    name: string;
+    name: () => string;
     icon: VNode;
     properties: Properties;
     dimension: Dimension;
+    dimensionNames: Record<keyof Dimension, () => string>;
     validate: (values: PropertyValues) => boolean;
+    resource: string;
 };
 
 type OrigamiSaved = {

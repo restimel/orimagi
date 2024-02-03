@@ -14,7 +14,7 @@ defineProps<{
                     selected: item.id === selected,
                 }"
                 :key="item.id"
-                :title="item.name"
+                :title="item.name()"
                 @click="() => $emit('change', item.id)"
             >
                 <component :is="item.icon" />
