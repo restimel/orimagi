@@ -22,6 +22,9 @@ const origamis: OrigamiItem[] = [{
             return dim.width * dim.depth * dim.height;
         },
     },
+    validate: (values: PropertyValues) => {
+        return values.width > 0 && values.height > 0 && values.depth > 0;
+    },
 }, {
     id: 'Lid',
     name: 'lid box',
@@ -45,6 +48,16 @@ const origamis: OrigamiItem[] = [{
             return dim.width * dim.depth * dim.height;
         },
     },
+    validate: (values: PropertyValues) => {
+        const lip = values.lip;
+        const marginA = values.marginA;
+        const lidRatio = values.ratio;
+
+        return values.width > 0 && values.height > 0 && values.depth > 0
+            && typeof lip === 'number' && lip >=0 && lip <= values.width
+            && typeof marginA === 'number' && marginA >=0 && marginA <= values.height
+            && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;
+    },
 }, {
     id: 'CardHolder',
     name: 'card holder',
@@ -61,6 +74,10 @@ const origamis: OrigamiItem[] = [{
         'Paper height': (dim: PropertyValues) => {
             return dim.width;
         },
+    },
+    validate: (values: PropertyValues) => {
+        return values.width > 0 && values.depth > 0
+            && values.depth <= values.width;
     },
 }];
 

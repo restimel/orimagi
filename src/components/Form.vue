@@ -73,7 +73,14 @@ function computeDimension(dim: PropertyValues): Array<[string, number]> {
 
 const dimensionValues = computed(() => {
     return computeDimension(properties);
-})
+});
+
+const isValid = computed(() => {
+    const validate = props.origami.validate;
+    const values = properties;
+
+    return validate(values);
+});
 
 function scale(property: keyof PropertyValues, ratio: number): number {
     const value = properties[property] || 0;
@@ -163,7 +170,11 @@ watch([properties, title], () => {
 <template>
     <div class="main-form">
         <h1 class="green">{{ title }}</h1>
-        <fieldset>
+        <fieldset
+            :class="{
+                invalid: !isValid,
+            }"
+        >
             <legend>
                 {{_('Properties')}}
             </legend>
@@ -242,5 +253,9 @@ h3 {
 fieldset {
     border-radius: 10px;
     margin-bottom: 20px;
+}
+
+.invalid {
+    background-color: var(--color-error);
 }
 </style>

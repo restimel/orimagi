@@ -5,6 +5,7 @@ type OrigamiItem = {
     icon: VNode;
     properties: Properties;
     dimension: Dimension;
+    validate: (values: PropertyValues) => boolean;
 };
 
 type OrigamiSaved = {

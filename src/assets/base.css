@@ -38,6 +38,7 @@
   --section-gap: 160px;
 
   --color-brand-primary: var(--vt-vue-color);
+  --color-error: rgba(255, 150, 150, 1);
 
   /* SVG color
    *          Front               Back
