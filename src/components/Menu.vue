@@ -29,7 +29,7 @@ defineProps<{
     position: absolute;
     background-color: var(--color-border);
     width: 1px;
-    height: 100%;
+    height: 95%;
 }
 
 .menu {
@@ -47,7 +47,7 @@ defineProps<{
     left: -65px;
 
     align-content: space-between;
-    height: 100%;
+    height: 95%;
     flex-wrap: wrap;
 }
 

@@ -32,7 +32,7 @@ a,
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
-    padding: 0 2rem;
+    padding: 1rem 2rem;
   }
 }
 
