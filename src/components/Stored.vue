@@ -2,6 +2,7 @@
 import _ from '@/i18n';
 import { defineEmits, ref } from 'vue';
 import IconSave from './icons/IconSave.vue';
+import IconClose from './icons/IconClose.vue';
 import { getIcon } from '../origami';
 
 let uid = 0;
@@ -36,6 +37,19 @@ const load = (item: OrigamiSaved) => {
     emit('load', item);
 };
 
+const remove = (item: OrigamiSaved) => {
+    const list = props.list;
+    const index = list.indexOf(item);
+
+    if (index === -1) {
+        return;
+    }
+
+    const newList = list.toSpliced(index, 1);
+
+    emit('change', newList);
+};
+
 </script>
 
 <template>
@@ -48,18 +62,24 @@ const load = (item: OrigamiSaved) => {
                 <li v-for="item of props.list"
                     :key="item.id"
                     :title="item.name"
+                    class="stored-item"
                 >
                     <component :is="getIcon(item.type)"
-                        class="btn-icon stored-item"
+                        class="btn-icon stored-item__main"
                         :dimensions="item.values"
                         @click.stop="load(item)"
+                    />
+                    <IconClose
+                        class="btn-icon remove-save"
+                        :title="_('remove this saved item')"
+                        @click.stop="remove(item)"
                     />
                 </li>
                 <li
                     :title="_('save')"
                 >
                     <IconSave
-                        class="btn-icon active stored-item"
+                        class="btn-icon active stored-item__main"
                         @click.stop="save"
                     />
                 </li>
@@ -85,9 +105,29 @@ const load = (item: OrigamiSaved) => {
     gap: 15px;
 }
 
-.stored-item {
+.stored-item__main {
     width: 50px;
     height: 50px;
+}
+
+.remove-save {
+    display: none;
+    position: absolute;
+    border-radius: 100%;
+    top: -10px;
+    right: -10px;
+    font-size: 0.5em;
+}
+.remove-save:hover {
+    background-color: var(--color-brand-primary);
+}
+
+.stored-item {
+    position: relative;
+}
+
+.stored-item:hover .remove-save {
+    display: block;
 }
 
 .save-name {

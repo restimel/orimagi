@@ -22,6 +22,10 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: 'saved name',
         fr: 'nom de la sauvegarde',
     }],
+    [ 'remove this saved item', {
+        en: 'remove this saved item',
+        fr: 'supprimer cette sauvegarde',
+    }],
     ['Width', {
         en: '',
         fr: 'Longueur',
