@@ -45,7 +45,7 @@ const remove = (item: OrigamiSaved) => {
         return;
     }
 
-    const newList = list.toSpliced(index, 1);
+    const newList = list.toSpliced?.(index, 1) ?? list.slice(0, index).concat(list.slice(index + 1));
 
     emit('change', newList);
 };
