@@ -41,8 +41,8 @@ const origamis: OrigamiItem[] = [{
         height: true,
         depth: true,
         lip: true,
-        marginA: 'lid oversize (to close correctly)',
-        ratio: 'lid split (%)',
+        marginA: () => _.value('lid oversize (to close correctly)'),
+        ratio: () => _.value('lid split (%)'),
     },
     dimension: {
         paperWidth: (dim: PropertyValues) => {

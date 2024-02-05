@@ -18,14 +18,18 @@ type OrigamiSaved = {
 }
 
 type Properties = {
-    width: boolean | string;
-    depth: boolean | string;
-    height: boolean | string;
-    lip?: boolean | string;
-    dividers?: boolean | string;
-    ratio?: boolean | string;
-    marginA?: boolean | string;
-    marginB?: boolean | string;
+    width: boolean | (() => string);
+    depth: boolean | (() => string);
+    height: boolean | (() => string);
+    lip?: boolean | (() => string);
+    dividers?: boolean | (() => string);
+    ratio?: boolean | (() => string);
+    marginA?: boolean | (() => string);
+    marginB?: boolean | (() => string);
+};
+
+type PropertyNames = {
+    [name in keyof Properties]: string;
 };
 
 type PropertyValues = {

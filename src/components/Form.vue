@@ -13,13 +13,13 @@ const emit = defineEmits<{
     change: [AllValues];
 }>();
 
-function defaultValue(value: boolean | string | undefined, defaultValue: string): string {
-    if (!value) {
-        return '';
+function defaultValue(value: boolean | (() => string) | undefined, defaultValue: string): string {
+    if (typeof value === 'function') {
+        return value();
     }
 
-    if (typeof value === 'string') {
-        return value;
+    if (!value) {
+        return '';
     }
 
     return defaultValue;
@@ -27,7 +27,7 @@ function defaultValue(value: boolean | string | undefined, defaultValue: string)
 
 const title = computed(() => props.origami.name);
 const values = computed(() => props.values);
-const propertyName = computed<Properties>(() => {
+const propertyName = computed<PropertyNames>(() => {
     const properties = props.origami.properties;
 
     return {

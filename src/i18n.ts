@@ -74,6 +74,14 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: 'Lid box',
         fr: 'Boîte avec couvercle',
     }],
+    ['lid oversize (to close correctly)', {
+        en: 'Overlapping of the lid (for proper closure)',
+        fr: 'Chevauchement du couvercle (pour une fermeture correcte)',
+    }],
+    ['lid split (%)', {
+        en: 'lid split (%)',
+        fr: 'Séparation du couvercle (%)',
+    }],
     ['V card holder', {
         en: 'V card holder',
         fr: 'Porte-carte en V',
