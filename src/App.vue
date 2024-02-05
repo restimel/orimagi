@@ -34,6 +34,23 @@ const load = (item: OrigamiSaved) => {
     result.value = item.values;
 };
 
+const save = (list: OrigamiSaved[]) => {
+    saved.value = list;
+    localStorage.setItem('save', JSON.stringify(list));
+};
+const restore = () => {
+    const strList = localStorage.getItem('save');
+
+    if (!strList) {
+        return;
+    }
+
+    const list = JSON.parse(strList);
+    saved.value = list;
+}
+
+restore();
+
 </script>
 
 <template>
@@ -56,9 +73,7 @@ const load = (item: OrigamiSaved) => {
                 :selected="currentSelection"
                 :properties="result"
 
-                @change="(list) => {
-                    saved = list;
-                }"
+                @change="save"
                 @load="load"
             />
         </div>
