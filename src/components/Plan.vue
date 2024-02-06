@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import CardHolderPlan from './plan/CardHolderPlan.vue';
 import LidPlan from './plan/LidPlan.vue';
+import KataDivider from './plan/KataPlan.vue';
 import MasuPlan from './plan/MasuPlan.vue';
 
 const props = defineProps<{
@@ -15,6 +16,8 @@ const component = computed(() => {
             return CardHolderPlan;
         case 'Lid':
             return LidPlan;
+        case 'KataDivider':
+            return KataDivider;
         case 'Masu':
         default:
             return MasuPlan;

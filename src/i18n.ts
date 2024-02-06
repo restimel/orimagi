@@ -86,6 +86,22 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: 'V card holder',
         fr: 'Porte-carte en V',
     }],
+    ['Kata divider', {
+        en: '',
+        fr: 'Diviseur Kata',
+    }],
+    ['First insert', {
+        en: '',
+        fr: 'Premier espace',
+    }],
+    ['Second insert', {
+        en: '',
+        fr: 'Deuxième espace',
+    }],
+    ['Third insert', {
+        en: '',
+        fr: 'Troisième espace',
+    }],
 ]);
 
 const currentLocale = ref<Locale>('fr');

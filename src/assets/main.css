@@ -55,6 +55,10 @@ svg.origami {
 .origami .fold {
   stroke-width: 5;
 }
+.origami .cut-line {
+  stroke-width: 5;
+  stroke-dasharray: 10 5;
+}
 
 .origami .page {
   stroke-width: 10;
@@ -62,7 +66,7 @@ svg.origami {
 
 .origami .mark {
   stroke-width: 1;
-  stroke-dasharray: 10 2;
+  stroke-dasharray: 10 5 5 5;
 }
 
 .origami .point {

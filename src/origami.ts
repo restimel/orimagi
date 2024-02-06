@@ -1,5 +1,6 @@
 import _ from '@/i18n';
 import CardHolderIcon from '@/components/icons/IconCardHolder.vue';
+import KataIcon from '@/components/icons/IconKata.vue';
 import LidIcon from '@/components/icons/IconLid.vue';
 import MasuIcon from '@/components/icons/IconMasu.vue';
 
@@ -19,14 +20,14 @@ const origamis: OrigamiItem[] = [{
         paperHeight: (dim: PropertyValues) => {
             return (dim.width + dim.depth + 4 * dim.height) / Math.SQRT2;
         },
-        paperVolume: (dim: PropertyValues) => {
+        cubeVolume: (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
         },
     },
     dimensionNames: {
         paperWidth: () => _.value('Paper width'),
         paperHeight: () => _.value('Paper height'),
-        paperVolume: () => _.value('Volume'),
+        cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
         return values.width > 0 && values.height > 0 && values.depth > 0;
@@ -51,14 +52,14 @@ const origamis: OrigamiItem[] = [{
         paperHeight: (dim: PropertyValues) => {
             return 2 * dim.depth + 2 * dim.height + (dim.marginA || 0);
         },
-        paperVolume: (dim: PropertyValues) => {
+        cubeVolume: (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
         },
     },
     dimensionNames: {
         paperWidth: () => _.value('Paper width'),
         paperHeight: () => _.value('Paper height'),
-        paperVolume: () => _.value('Volume'),
+        cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
         const lip = values.lip;
@@ -69,6 +70,38 @@ const origamis: OrigamiItem[] = [{
             && typeof lip === 'number' && lip >=0 && lip <= values.width
             && typeof marginA === 'number' && marginA >=0 && marginA <= values.height
             && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;
+    },
+    resource: '',
+}, {
+    id: 'KataDivider',
+    name: () => _.value('Kata divider'),
+    icon: KataIcon,
+    properties: {
+        width: true,
+        height: true,
+        depth: () => _.value('First insert'),
+        marginA: () => _.value('Second insert'),
+        marginB: () => _.value('Third insert'),
+
+    },
+    dimension: {
+        paperWidth: (dim: PropertyValues) => {
+            const marginA = dim.marginA ?? 0;
+            const marginB = dim.marginB ?? 0;
+            return dim.depth + marginA + marginB + (marginB ? 4 : 2) * dim.height;
+        },
+        paperHeight: (dim: PropertyValues) => {
+            return dim.width + 2 * dim.height;
+        },
+    },
+    dimensionNames: {
+        paperWidth: () => _.value('Paper width'),
+        paperHeight: () => _.value('Paper height'),
+        cubeVolume: () => _.value('Volume'),
+    },
+    validate: (values: PropertyValues) => {
+        return values.width > 0 && values.height > 0
+            && values.depth > 0 && values.marginA! > 0  && values.marginB! >= 0;
     },
     resource: '',
 }, {
@@ -91,7 +124,7 @@ const origamis: OrigamiItem[] = [{
     dimensionNames: {
         paperWidth: () => _.value('Paper width'),
         paperHeight: () => _.value('Paper height'),
-        paperVolume: () => _.value('Volume'),
+        cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
         return values.width > 0 && values.depth > 0
