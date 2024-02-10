@@ -1,5 +1,6 @@
 import _ from '@/i18n';
 import CardHolderIcon from '@/components/icons/IconCardHolder.vue';
+import CardsHolderIcon from '@/components/icons/IconCardsHolder.vue';
 import KataIcon from '@/components/icons/IconKata.vue';
 import LidIcon from '@/components/icons/IconLid.vue';
 import MasuIcon from '@/components/icons/IconMasu.vue';
@@ -105,7 +106,7 @@ const origamis: OrigamiItem[] = [{
     },
     resource: '',
 }, {
-    id: 'CardHolder',
+    id: 'VCardHolder',
     name: () => _.value('V card holder'),
     icon: CardHolderIcon,
     properties: {
@@ -131,6 +132,40 @@ const origamis: OrigamiItem[] = [{
             && values.depth <= values.width;
     },
     resource: 'https://www.youtube.com/watch?v=fEgUx_0-1Qs',
+}, {
+    id: 'CardsHolder',
+    name: () => _.value('Cards holder'),
+    icon: CardsHolderIcon,
+    properties: {
+        width: true,
+        height: true,
+        depth: true,
+        marginA: () => _.value('Band height'),
+        marginB: () => _.value('Overlapping'),
+    },
+    dimension: {
+        paperWidth: (dim: PropertyValues) => {
+            return 2 * dim.width + 2 * dim.depth + (dim.marginB ?? 0);
+        },
+        paperHeight: (dim: PropertyValues) => {
+            return dim.height + 2 * (dim.marginA ?? 0);
+        },
+        cubeVolume:  (dim: PropertyValues) => {
+            return dim.width * dim.height * dim.depth;
+        },
+    },
+    dimensionNames: {
+        paperWidth: () => _.value('Paper width'),
+        paperHeight: () => _.value('Paper height'),
+        cubeVolume: () => _.value('Volume'),
+    },
+    validate: (values: PropertyValues) => {
+        return values.width > 0 && values.height > 0 && values.depth > 0
+            && values.marginA! > 0  && values.marginB! > 0
+            && 2 * values.marginA! <= values.height
+            && 2 * values.marginB! <= values.width;
+    },
+    resource: '',
 }];
 
 export default origamis;

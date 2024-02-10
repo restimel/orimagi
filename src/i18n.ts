@@ -102,6 +102,18 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: '',
         fr: 'Troisième espace',
     }],
+    ['Cards holder', {
+        en: '',
+        fr: 'Range Carte',
+    }],
+    ['Band height', {
+        en: '',
+        fr: 'Hauteur de la bande',
+    }],
+    ['Overlapping', {
+        en: '',
+        fr: 'Superposition',
+    }],
 ]);
 
 const currentLocale = ref<Locale>('fr');

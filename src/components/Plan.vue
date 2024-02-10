@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import CardHolderPlan from './plan/CardHolderPlan.vue';
+import CardsHolderPlan from './plan/CardsHolderPlan.vue';
 import LidPlan from './plan/LidPlan.vue';
 import KataDivider from './plan/KataPlan.vue';
 import MasuPlan from './plan/MasuPlan.vue';
@@ -12,12 +13,14 @@ const props = defineProps<{
 
 const component = computed(() => {
     switch (props.selected) {
-        case 'CardHolder':
-            return CardHolderPlan;
+        case 'CardsHolder':
+            return CardsHolderPlan;
         case 'Lid':
             return LidPlan;
         case 'KataDivider':
             return KataDivider;
+        case 'VCardHolder':
+            return CardHolderPlan;
         case 'Masu':
         default:
             return MasuPlan;
