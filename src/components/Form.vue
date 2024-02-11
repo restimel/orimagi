@@ -195,6 +195,7 @@ watch([properties, title], () => {
 
                 <Range v-if="name === 'ratio'"
                     :value="properties[name] ?? 0"
+                    :disabled="lockProperties.has(name)"
                     @input="onInputProps(name, $event)"
                     @change="onInputProps(name, $event)"
                 />

@@ -4,6 +4,7 @@ import { displayNumber } from '@/helpers';
 
 const props = defineProps<{
     value: number;
+    disabled: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -14,7 +15,8 @@ const emit = defineEmits<{
 
 const currentValue = ref(0);
 
-const reactivePropValue = computed(() => props.value);
+const reactivePropValue = computed(() => props.value || 0);
+const disabled = computed(() => props.disabled || false);
 
 watch(reactivePropValue, () => {
     currentValue.value = props.value;
@@ -56,6 +58,7 @@ function onInput(evt: Event) {
             min="0"
             max="100"
             :value="currentValue"
+            :disabled="disabled"
             @change="onChange"
             @input="onInput"
         />
@@ -65,6 +68,7 @@ function onInput(evt: Event) {
             min="0"
             max="100"
             :value="displayNumber(currentValue)"
+            :disabled="disabled"
             @change="onChange"
             @input="onInput"
         />
