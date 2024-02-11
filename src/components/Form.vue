@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import _ from '@/i18n';
 import { computed, defineEmits, reactive, ref, watch } from 'vue';
+import { displayNumber } from '@/helpers';
 import IconUnlock from './icons/IconUnlock.vue';
 import IconLock from './icons/IconLock.vue';
+import Range from './range.vue';
 
 const props = defineProps<{
     origami: OrigamiItem;
@@ -147,6 +149,13 @@ function reScale(dimName: string, originValue: number, targetValue: number, minM
     return false;
 }
 
+function onInputProps(name: keyof Properties, evt: Event | number) {
+    const el = typeof evt === 'number' ? null : evt.currentTarget as HTMLInputElement;
+    const value = typeof evt === 'number' ? evt : parseFloat(el!.value) || 0;
+
+    properties[name] = value;
+}
+
 watch(values, () => {
     for (const [key, value] of (Object.entries(values.value) as Array<[keyof PropertyValues, number]>)) {
         const oldValue = properties[key];
@@ -164,7 +173,7 @@ watch([properties, title], () => {
     dimensionValues.value.forEach(([key, value]) => results[key] = value);
 
     emit('change', results);
-}, { immediate: true})
+}, { immediate: true});
 </script>
 
 <template>
@@ -183,13 +192,17 @@ watch([properties, title], () => {
                 :key="name"
             >
                 {{propertyName[name]}}
-                <input
-                    :value="properties[name]"
+
+                <Range v-if="name === 'ratio'"
+                    :value="properties[name] ?? 0"
+                    @input="onInputProps(name, $event)"
+                    @change="onInputProps(name, $event)"
+                />
+                <input v-else
+                    type="number"
+                    :value="displayNumber(properties[name] ?? 0)"
                     :disabled="lockProperties.has(name)"
-                    @input="(evt) => {
-                        const el = evt.currentTarget as HTMLInputElement;
-                        properties[name] = parseFloat(el.value) || 0;
-                    }"
+                    @input="onInputProps(name, $event)"
                 >
 
                 <IconLock v-if="lockProperties.has(name)" class="btn-icon active" @click="() => lockProperties.delete(name)" />
@@ -206,7 +219,8 @@ watch([properties, title], () => {
             >
                 {{origami.dimensionNames[name]?.() ?? name}}
                 <input
-                    :value="value"
+                    type="number"
+                    :value="displayNumber(value)"
                     @change="(evt) => {
                         const el = evt.currentTarget as HTMLInputElement;
                         reScale(name, value, parseFloat(el.value) || 0);

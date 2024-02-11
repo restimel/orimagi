@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { displayNumber } from '@/helpers';
 import { computed } from 'vue';
 
 const props = defineProps<{
@@ -38,7 +39,7 @@ function fValue(value: number | ''): string {
         return '';
     }
 
-    return (value || 0).toString().replace(/(\.\d{2}).*$/, '$1').replace(/(\d{1,3})(?=(?:\d{3})+(?:\.|$))/g, '$1 ');
+    return displayNumber(value, true);
 }
 </script>
 <template>
