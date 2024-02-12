@@ -78,14 +78,14 @@ svg.origami {
   stroke: var(--color-brand-primary);
 }
 
-.origami .label-value {
+.origami .arrow-label-value {
   font-size: 25px;
   text-anchor: middle;
   dominant-baseline: middle;
   stroke: var(--color-brand-primary);
 }
 
-.origami g:hover > :is(.arrow, .label-value) {
+.origami g:hover > :is(.arrow, .arrow-label-value) {
   stroke-width: 6;
   font-size: 32px;
 }

@@ -52,7 +52,7 @@ function fValue(value: number | ''): string {
             :transform="`translate(0, ${offset})`"
         />
         <text
-            class="label-value"
+            class="arrow-label-value"
             :x="length / 2"
             :y="textOffset"
             :transform="`translate(0, ${offset})`"

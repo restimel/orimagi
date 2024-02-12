@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
 import CutArea from './common/CutArea.vue';
 
@@ -7,6 +7,10 @@ import * as plan from './plan';
 
 const props = defineProps<{
     dimensions: AllValues;
+}>();
+const emit = defineEmits<{
+    /** List of detail labels to display */
+    labels: [Partial<SettingsDisplay>];
 }>();
 
 const page = plan.page(props);
@@ -43,6 +47,12 @@ const lidCover = computed(() => {
     const margin = lidOver.value < properties.marginA ? 0 : properties.marginA;
 
     return properties.depth - lidOver.value + margin;
+});
+
+emit('labels', {
+    arrow: true,
+    fold: true,
+    cut: true,
 });
 
 </script>

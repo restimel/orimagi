@@ -49,3 +49,20 @@ type PlanProps = {
 
 type Point = [number, number];
 type Line = [Point, Point];
+
+/* {{{ OrigamiSettings */
+
+type SettingsType =
+    | 'arrow'
+    | 'cut'
+    | 'cutLine'
+    | 'fold'
+    | 'mark'
+    | 'page'
+    | 'point'
+;
+
+type SettingsDisplay = Record<SettingsType, boolean>;
+type SettingsLabel = Record<SettingsType, () => string>;
+
+/* }}} */

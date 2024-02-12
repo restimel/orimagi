@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
 
 import * as plan from './plan';
 
 const props = defineProps<{
     dimensions: AllValues;
+}>();
+const emit = defineEmits<{
+    /** List of detail labels to display */
+    labels: [Partial<SettingsDisplay>];
 }>();
 
 const page = plan.page(props);
@@ -137,6 +141,13 @@ const point6bis = computed(() => {
     const valueRatio = value * page.ratio;
 
     return getCoord(valueRatio) || 0;
+});
+
+emit('labels', {
+    arrow: true,
+    fold: true,
+    mark: true,
+    point: true,
 });
 
 </script>

@@ -1,4 +1,4 @@
-import { computed, reactive } from 'vue';
+import { computed, defineEmits, reactive } from 'vue';
 
 function minMax(value: number = 0, min: number, max: number) {
     if (!Number.isFinite(value)) {
