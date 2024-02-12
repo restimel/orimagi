@@ -1,3 +1,4 @@
+/* {{{ Origami description */
 
 type OrigamiItem = {
     id: string;
@@ -50,6 +51,7 @@ type PlanProps = {
 type Point = [number, number];
 type Line = [Point, Point];
 
+/* }}} */
 /* {{{ OrigamiSettings */
 
 type SettingsType =
@@ -64,5 +66,11 @@ type SettingsType =
 
 type SettingsDisplay = Record<SettingsType, boolean>;
 type SettingsLabel = Record<SettingsType, () => string>;
+
+/* }}} */
+/* {{{ i18n */
+
+type Locale = 'en' | 'fr';
+type I18nItem = Record<Locale, string>;
 
 /* }}} */

@@ -4,7 +4,6 @@ import {
     languages,
     locale,
     supportedLocales,
-    type Locale,
     setLocale,
 } from '@/i18n';
 
