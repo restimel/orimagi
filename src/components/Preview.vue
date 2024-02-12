@@ -26,6 +26,7 @@ const origamiIcon = computed(() => {
 .preview {
     height: 100%;
     align-self: center;
+    min-height: 100px;
 }
 .show-model {
     width: 100%;

@@ -163,7 +163,7 @@ const origamis: OrigamiItem[] = [{
         return values.width > 0 && values.height > 0 && values.depth > 0
             && values.marginA! > 0  && values.marginB! > 0
             && 2 * values.marginA! <= values.height
-            && 2 * values.marginB! <= values.width;
+            && values.marginB! <= values.width;
     },
     resource: '',
 }];
