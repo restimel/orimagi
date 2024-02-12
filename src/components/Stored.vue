@@ -7,6 +7,7 @@ import { getIcon } from '../origami';
 
 let uid = 0;
 let saveName = ref('');
+const activeItem = ref<number|null>(null);
 
 const props = defineProps<{
     list: OrigamiSaved[];
@@ -35,6 +36,7 @@ const save = () => {
 
 const load = (item: OrigamiSaved) => {
     emit('load', item);
+    activeItem.value = null;
 };
 
 const remove = (item: OrigamiSaved) => {
@@ -49,6 +51,7 @@ const remove = (item: OrigamiSaved) => {
         ?? list.slice(0, index).concat(list.slice(index + 1));
 
     emit('change', newList);
+    activeItem.value = null;
 };
 
 </script>
@@ -64,16 +67,28 @@ const remove = (item: OrigamiSaved) => {
                     :key="item.id"
                     :title="item.name"
                     class="stored-item"
+                    :class="{
+                        activeItem: activeItem === item.id,
+                    }"
                 >
                     <component :is="getIcon(item.type)"
                         class="btn-icon stored-item__main"
                         :dimensions="item.values"
                         @click.stop="load(item)"
+                        @touchstart="activeItem = item.id"
+                        @touchend="if ($event.currentTarget.contains($event.target)) {
+                            load(item);
+                        } else if ($event.target.classList.has('remove-save')) {
+                            remove(item);
+                        } else {
+                            activeItem = null;
+                        }"
                     />
                     <IconClose
                         class="btn-icon remove-save"
                         :title="_('remove this saved item')"
                         @click.stop="remove(item)"
+                        @touchend.stop="remove(item)"
                     />
                 </li>
                 <li
@@ -127,7 +142,8 @@ const remove = (item: OrigamiSaved) => {
     position: relative;
 }
 
-.stored-item:hover .remove-save {
+.stored-item:hover .remove-save,
+.stored-item.activeItem .remove-save {
     display: block;
 }
 
