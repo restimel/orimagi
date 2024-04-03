@@ -1,4 +1,5 @@
-import { computed, defineEmits, reactive } from 'vue';
+import { computed, reactive } from 'vue';
+import additionalArrows from './additionalArrowsStore';
 
 function minMax(value: number = 0, min: number, max: number) {
     if (!Number.isFinite(value)) {
@@ -33,12 +34,34 @@ export function page(props: PlanProps) {
         return paperHeight.value * ratio.value || 0;
     });
 
+    const viewBox = computed(() => {
+        const arrows = additionalArrows.value;
+        const levelMax = arrows.reduce((max, arrow) => {
+            const arrowValue = arrow.value;
+            const level = arrowValue.level;
+
+            if (level > max) {
+                /* consider this arrow only if it is on a side of the SVG */
+                if (arrowValue.x >= 1000 || arrowValue.y >= 1000) {
+                    return level;
+                }
+            }
+
+            return max;
+        }, 1);
+        const margin = 100; /* ~ size of an arrow */
+        const padding = (levelMax + 1) * margin;
+
+        return `-${margin} -${margin} ${1000 + padding} ${1000 + padding}`;
+    });
+
     return reactive({
         paperWidth,
         paperHeight,
         ratio,
         pWidth,
         pHeight,
+        viewBox,
     });
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
+import AdditionalArrows from './common/AdditionalArrows.vue';
 
 import * as plan from './plan';
 
@@ -41,7 +42,7 @@ emit('labels', {
         class="origami"
         xmlns="http://www.w3.org/2000/svg"
 
-        viewBox="-100 -100 1200 1200"
+        :viewBox="page.viewBox"
     >
         <g class="paper">
             <Arrow
@@ -192,6 +193,7 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.depth"
                 reverseOffset
+                key="first part"
             />
             <Arrow
                 :x="(properties.depth) * page.ratio"
@@ -200,6 +202,7 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.height"
                 reverseOffset
+                key="first part side2"
             />
             <Arrow
                 :x="(properties.depth + properties.height) * page.ratio"
@@ -208,6 +211,7 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.height"
                 reverseOffset
+                key="second part side1"
             />
             <Arrow
                 :x="(properties.depth + 2 * properties.height) * page.ratio"
@@ -216,6 +220,7 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.marginA"
                 reverseOffset
+                key="second part"
             />
         </g>
         <g v-if="properties.marginB > 0">
@@ -226,6 +231,7 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.height"
                 reverseOffset
+                key="second part side2"
             />
             <Arrow
                 :x="(properties.depth + 3 * properties.height + properties.marginA) * page.ratio"
@@ -234,6 +240,7 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.height"
                 reverseOffset
+                key="third part side1"
             />
             <Arrow
                 :x="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
@@ -242,8 +249,10 @@ emit('labels', {
                 :y2="page.pHeight"
                 :text="properties.marginB"
                 reverseOffset
+                key="third part"
             />
         </g>
+        <AdditionalArrows />
     </svg>
 </template>
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { displayNumber } from '@/helpers';
 import { computed } from 'vue';
+import { add, arrowId, remove } from '../additionalArrowsStore';
 
 const props = defineProps<{
     x: number;
@@ -9,10 +10,22 @@ const props = defineProps<{
     y2: number;
     text?: number;
     reverseOffset?: boolean;
+    level?: number;
 }>();
 
-const offset = computed(() => props.reverseOffset ? 30 : -30);
-const textOffset = computed(() => props.reverseOffset ? 25 : -25);
+const level = computed(() => props.level ?? 1);
+const offset = computed(() => (props.reverseOffset ? 35 : -35) * level.value);
+const textOffset = computed(() => (props.reverseOffset ? 15 : -15));
+const arrow = computed<ArrowDef>(() => ({
+    x: props.x,
+    y: props.y,
+    x2: props.x2,
+    y2: props.y2,
+    text: props.text || 0,
+    level: level.value,
+    reverseOffset: !!props.reverseOffset,
+    id: arrowId(props as ArrowDef),
+}));
 
 const length = computed(() => {
     return Math.sqrt((props.x2 - props.x) ** 2 + (props.y2 - props.y) ** 2) || 0;
@@ -41,10 +54,23 @@ function fValue(value: number | ''): string {
 
     return displayNumber(value, true);
 }
+
+function addArrow() {
+    add(arrow);
+}
+
+function removeArrow() {
+    if (level.value > 1) {
+        remove(arrow);
+    }
+}
+
 </script>
 <template>
     <g
         :transform="`translate(${tx}, ${ty}) rotate(${rotate})`"
+        @click="addArrow"
+        @dblclick="removeArrow"
     >
         <path
             class="arrow"

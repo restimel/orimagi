@@ -68,6 +68,20 @@ type SettingsDisplay = Record<SettingsType, boolean>;
 type SettingsLabel = Record<SettingsType, () => string>;
 
 /* }}} */
+/* {{{ Arrows */
+
+type ArrowDef = {
+    x: number;
+    y: number;
+    x2: number;
+    y2: number;
+    text: number;
+    reverseOffset: boolean;
+    level: number;
+    id: string;
+};
+
+/* }}} */
 /* {{{ i18n */
 
 type Locale = 'en' | 'fr';

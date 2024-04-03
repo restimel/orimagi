@@ -2,6 +2,7 @@
 import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
 import CutArea from './common/CutArea.vue';
+import AdditionalArrows from './common/AdditionalArrows.vue';
 
 import * as plan from './plan';
 
@@ -62,7 +63,7 @@ emit('labels', {
         class="origami"
         xmlns="http://www.w3.org/2000/svg"
 
-        viewBox="-100 -100 1200 1200"
+        :viewBox="page.viewBox"
     >
         <defs>
             <CutArea />
@@ -284,6 +285,7 @@ emit('labels', {
                 reverseOffset
             />
         </g>
+        <AdditionalArrows />
     </svg>
 </template>
 
