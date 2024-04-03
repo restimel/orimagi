@@ -187,6 +187,29 @@ emit('labels', {
         </g>
         <g>
             <Arrow
+                :x="page.pWidth"
+                :x2="page.pWidth"
+                :y="0"
+                :y2="(properties.height) * page.ratio"
+                :text="properties.height"
+            />
+            <Arrow
+                :x="page.pWidth"
+                :x2="page.pWidth"
+                :y="(properties.height) * page.ratio"
+                :y2="(properties.height + properties.width) * page.ratio"
+                :text="properties.width"
+            />
+            <Arrow
+                :x="page.pWidth"
+                :x2="page.pWidth"
+                :y="(properties.height + properties.width) * page.ratio"
+                :y2="page.pHeight"
+                :text="properties.height"
+            />
+        </g>
+        <g>
+            <Arrow
                 :x="0"
                 :x2="(properties.depth) * page.ratio"
                 :y="page.pHeight"

@@ -128,6 +128,10 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: '',
         fr: 'Points de repère',
     }],
+    ['Display', {
+        en: '',
+        fr: 'Affichage',
+    }],
 ]);
 
 export default dict;

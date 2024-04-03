@@ -328,6 +328,7 @@ emit('labels', {
             />
         </g>
         <g>
+            <!-- diagonal up-left -->
             <circle
                 class="point"
                 :cx="point1"
@@ -347,6 +348,7 @@ emit('labels', {
                 :r="5"
             />
 
+            <!-- diagonal down-right -->
             <circle
                 class="point"
                 :cx="point1bis"
@@ -366,25 +368,27 @@ emit('labels', {
                 :r="5"
             />
 
+            <!-- diagonal down-left -->
             <circle
                 class="point"
-                :cx="point1"
-                :cy="point1bis"
+                :cx="point4"
+                :cy="point4bis"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="point2"
-                :cy="point2bis"
+                :cx="point5"
+                :cy="point5bis"
                 :r="5"
             />
             <circle
                 class="point"
-                :cx="point3"
-                :cy="point3bis"
+                :cx="point6"
+                :cy="point6bis"
                 :r="5"
             />
 
+            <!-- diagonal up-right -->
             <circle
                 class="point"
                 :cx="point4bis"

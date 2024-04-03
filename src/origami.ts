@@ -69,7 +69,7 @@ const origamis: OrigamiItem[] = [{
 
         return values.width > 0 && values.height > 0 && values.depth > 0
             && typeof lip === 'number' && lip >=0 && lip <= values.width
-            && typeof marginA === 'number' && marginA >=0 && marginA <= values.height
+            && typeof marginA === 'number' && marginA >=0 && marginA <= values.depth
             && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;
     },
     resource: '',
