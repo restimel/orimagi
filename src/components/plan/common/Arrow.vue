@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { displayNumber } from '@/helpers';
 import { computed } from 'vue';
-import { add, arrowId, remove } from '../additionalArrowsStore';
+import { add, arrowId, isArrowSelected, remove } from '../additionalArrowsStore';
 
 const props = defineProps<{
     x: number;
@@ -26,6 +26,9 @@ const arrow = computed<ArrowDef>(() => ({
     reverseOffset: !!props.reverseOffset,
     id: arrowId(props as ArrowDef),
 }));
+const isSelected = computed(() => {
+    return isArrowSelected(arrow);
+});
 
 const length = computed(() => {
     return Math.sqrt((props.x2 - props.x) ** 2 + (props.y2 - props.y) ** 2) || 0;
@@ -68,6 +71,9 @@ function removeArrow() {
 </script>
 <template>
     <g
+        :class="{
+            'arrow-selected': isSelected,
+        }"
         :transform="`translate(${tx}, ${ty}) rotate(${rotate})`"
         @click="addArrow"
         @dblclick="removeArrow"

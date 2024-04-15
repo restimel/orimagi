@@ -15,6 +15,16 @@ export function arrowId(arrow: ArrowDef): string {
     return `arrow-${arrow.x}-${arrow.y}-${arrow.x2}-${arrow.y2}-${arrow.level || 1}`;
 }
 
+export function isArrowSelected(arrow: AdditionalArrow): boolean {
+    const ref1 = refArrow1.value as AdditionalArrow | null;
+
+    if (!ref1) {
+        return false;
+    }
+
+    return ref1 === arrow;
+}
+
 export function add(arrow: AdditionalArrow) {
     const ref1 = refArrow1.value as AdditionalArrow | null;
 
@@ -44,13 +54,19 @@ export function add(arrow: AdditionalArrow) {
     }
 }
 
+function areEqual(num1: number, num2: number) {
+    /* Number.EPSILON doesn't seems enough */
+    const epsilon = 1e-12;
+    return Math.abs(num1 - num2) < epsilon;
+}
+
 function check(arrow1: ArrowDef, arrow2: ArrowDef): boolean {
     const a1 = (arrow1.y - arrow1.y2) / (arrow1.x - arrow1.x2);
     const b1 = arrow1.y - a1 * arrow1.x;
     const a2 = (arrow2.y - arrow2.y2) / (arrow2.x - arrow2.x2);
     const b2 = arrow2.y - a2 * arrow2.x;
 
-    return a1 === a2 && b1 === b2;
+    return areEqual(a1, a2) && areEqual(b1, b2);
 }
 
 function create(arrow1: ArrowDef, arrow2: ArrowDef): ArrowDef {

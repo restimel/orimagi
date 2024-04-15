@@ -38,6 +38,7 @@
   --section-gap: 160px;
 
   --color-brand-primary: var(--vt-vue-color);
+  --color-brand-secondary: rgba(193, 186, 58, 1);
   --color-error: rgba(255, 150, 150, 1);
 
   /* SVG color

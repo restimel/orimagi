@@ -78,6 +78,10 @@ svg.origami {
   stroke: var(--color-brand-primary);
 }
 
+.origami .arrow-selected :is(.arrow, .arrow-label-value) {
+  stroke: var(--color-brand-secondary);
+}
+
 .origami .arrow-label-value {
   font-size: 25px;
   text-anchor: middle;
