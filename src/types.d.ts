@@ -59,6 +59,7 @@ type SettingsType =
     | 'cut'
     | 'cutLine'
     | 'fold'
+    | 'foldDetails'
     | 'mark'
     | 'page'
     | 'point'

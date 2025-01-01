@@ -116,6 +116,10 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: '',
         fr: 'Ligne à plier',
     }],
+    ['Fold line details', {
+        en: '',
+        fr: 'Détail des lignes à plier',
+    }],
     ['Mark line', {
         en: '',
         fr: 'Ligne à marquer',

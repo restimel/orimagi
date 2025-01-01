@@ -32,6 +32,7 @@ const ready = computed(() => {
 emit('labels', {
     arrow: true,
     fold: true,
+    foldDetails: true,
 });
 
 </script>
@@ -66,28 +67,28 @@ emit('labels', {
         </g>
         <g>
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.width) * page.ratio"
                 :x2="(properties.width) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.width + properties.depth) * page.ratio"
                 :x2="(properties.width + properties.depth) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(2 * properties.width + properties.depth) * page.ratio"
                 :x2="(2 * properties.width + properties.depth) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(2 * properties.width + 2 * properties.depth) * page.ratio"
                 :x2="(2 * properties.width + 2 * properties.depth) * page.ratio"
                 :y1="0"
@@ -95,14 +96,14 @@ emit('labels', {
             />
 
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
                 :y1="(properties.marginA) * page.ratio"
                 :y2="(properties.marginA) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
                 :y1="page.pHeight - (properties.marginA) * page.ratio"

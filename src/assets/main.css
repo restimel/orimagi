@@ -55,9 +55,18 @@ svg.origami {
 .origami .fold {
   stroke-width: 5;
 }
+
+.plan.foldDetail .origami .valley-fold {
+  stroke-dasharray: 10 3;
+}
+
+.plan.foldDetail .origami .mountain-fold {
+  stroke-dasharray: 10 3 2 3;
+}
+
 .origami .cut-line {
-  stroke-width: 5;
-  stroke-dasharray: 10 5;
+  stroke-width: 7;
+  stroke-dasharray: 10 6;
 }
 
 .origami .page {
@@ -66,7 +75,7 @@ svg.origami {
 
 .origami .mark {
   stroke-width: 1;
-  stroke-dasharray: 10 5 5 5;
+  stroke-dasharray: 10 7 5 7;
 }
 
 .origami .point {
@@ -98,6 +107,25 @@ svg.origami {
   stroke: none;
   /* fill: rgba(200, 200, 200, 0.5); */
   fill: url(#cutArea);
+}
+
+.origami .paste-front {
+  stroke: none;
+  fill: url(#pasteFrontArea);
+}
+
+.origami .paste-back {
+  stroke: none;
+  fill: url(#pasteBackArea);
+}
+
+.origami .svg-icon {
+  font-size: 50px;
+  /* text-anchor: middle;
+  alignment-baseline: central; */
+  stroke-width: 2;
+  stroke-dasharray: none;
+  fill: none;
 }
 
 svg.icon {

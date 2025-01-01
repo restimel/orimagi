@@ -64,10 +64,12 @@ const origamis: OrigamiItem[] = [{
     },
     validate: (values: PropertyValues) => {
         const lip = values.lip;
+        const width = values.width;
+        const height = values.height;
         const marginA = values.marginA;
         const lidRatio = values.ratio;
 
-        return values.width > 0 && values.height > 0 && values.depth > 0
+        return width > 0 && height > 0 && values.depth > 0 && height <= width
             && typeof lip === 'number' && lip >=0 && lip <= values.width
             && typeof marginA === 'number' && marginA >=0 && marginA <= values.depth
             && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;

@@ -18,6 +18,7 @@ const details = ref<SettingsDisplay>({
     cut: true,
     cutLine: true,
     fold: true,
+    foldDetails: true,
     mark: true,
     page: true,
     point: true,
@@ -48,6 +49,7 @@ const component = computed(() => {
             noCut: !details.cut,
             noCutLine: !details.cutLine,
             noFold: !details.fold,
+            foldDetail: !!details.foldDetails,
             noMark: !details.mark,
             noPoint: !details.point,
         }"
@@ -83,6 +85,9 @@ const component = computed(() => {
 }
 .plan.noCutLine .cut-line {
     stroke-dasharray: none;
+}
+.plan.noCutLine .cut-line > .svg-icon {
+    display: none;
 }
 .plan.noCutLine.noFold .cut-line {
     stroke: none;

@@ -147,6 +147,7 @@ const point6bis = computed(() => {
 emit('labels', {
     arrow: true,
     fold: true,
+    foldDetails: true,
     mark: true,
     point: true,
 });
@@ -201,7 +202,7 @@ emit('labels', {
         </g>
         <g>
             <line
-                class="fold"
+                class="fold fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point1, false)[0][0]"
                 :y1="getLine(point1, false)[0][1]"
@@ -209,7 +210,7 @@ emit('labels', {
                 :y2="getLine(point1, false)[1][1]"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point2, false)[0][0]"
                 :y1="getLine(point2, false)[0][1]"
@@ -217,7 +218,7 @@ emit('labels', {
                 :y2="getLine(point2, false)[1][1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point3, false)[0][0]"
                 :y1="getLine(point3, false)[0][1]"
@@ -225,7 +226,7 @@ emit('labels', {
                 :y2="getLine(point3, false)[1][1]"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point1bis, false)[0][0]"
                 :y1="getLine(point1bis, false)[0][1]"
@@ -233,7 +234,7 @@ emit('labels', {
                 :y2="getLine(point1bis, false)[1][1]"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point2bis, false)[0][0]"
                 :y1="getLine(point2bis, false)[0][1]"
@@ -241,7 +242,7 @@ emit('labels', {
                 :y2="getLine(point2bis, false)[1][1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point3bis, false)[0][0]"
                 :y1="getLine(point3bis, false)[0][1]"
@@ -250,7 +251,7 @@ emit('labels', {
             />
 
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point4, true)[0][0]"
                 :y1="getLine(point4, true)[0][1]"
@@ -258,7 +259,7 @@ emit('labels', {
                 :y2="getLine(point4, true)[1][1]"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point5, true)[0][0]"
                 :y1="getLine(point5, true)[0][1]"
@@ -266,7 +267,7 @@ emit('labels', {
                 :y2="getLine(point5, true)[1][1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point6, true)[0][0]"
                 :y1="getLine(point6, true)[0][1]"
@@ -274,7 +275,7 @@ emit('labels', {
                 :y2="getLine(point6, true)[1][1]"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point4bis, true)[0][0]"
                 :y1="getLine(point4bis, true)[0][1]"
@@ -282,7 +283,7 @@ emit('labels', {
                 :y2="getLine(point4bis, true)[1][1]"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point5bis, true)[0][0]"
                 :y1="getLine(point5bis, true)[0][1]"
@@ -290,7 +291,7 @@ emit('labels', {
                 :y2="getLine(point5bis, true)[1][1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 clip-path="url(#page)"
                 :x1="getLine(point6bis, true)[0][0]"
                 :y1="getLine(point6bis, true)[0][1]"
@@ -299,28 +300,28 @@ emit('labels', {
             />
 
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="intersection(point1, point4)[0]"
                 :y1="intersection(point1, point4)[1]"
                 :x2="intersection(point2, point5)[0]"
                 :y2="intersection(point2, point5)[1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="intersection(point1bis, point4bis)[0]"
                 :y1="intersection(point1bis, point4bis)[1]"
                 :x2="intersection(point2bis, point5bis)[0]"
                 :y2="intersection(point2bis, point5bis)[1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="intersection(point1, point4bis)[0]"
                 :y1="intersection(point1, point4bis)[1]"
                 :x2="intersection(point2, point5bis)[0]"
                 :y2="intersection(point2, point5bis)[1]"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="intersection(point1bis, point4)[0]"
                 :y1="intersection(point1bis, point4)[1]"
                 :x2="intersection(point2bis, point5)[0]"

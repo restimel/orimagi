@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
+import CutLine from './common/CutLine.vue';
 import AdditionalArrows from './common/AdditionalArrows.vue';
 
 import * as plan from './plan';
@@ -32,6 +33,7 @@ const ready = computed(() => {
 emit('labels', {
     arrow: true,
     fold: true,
+    foldDetails: true,
     cutLine: true,
 });
 
@@ -67,21 +69,21 @@ emit('labels', {
         </g>
         <g>
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth) * page.ratio"
                 :x2="(properties.depth) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.depth + properties.height) * page.ratio"
                 :x2="(properties.depth + properties.height) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 2 * properties.height) * page.ratio"
                 :x2="(properties.depth + 2 * properties.height) * page.ratio"
                 :y1="0"
@@ -90,21 +92,21 @@ emit('labels', {
         </g>
         <g v-if="properties.marginB > 0">
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 2 * properties.height + properties.marginA) * page.ratio"
                 :x2="(properties.depth + 2 * properties.height + properties.marginA) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.depth + 3 * properties.height + properties.marginA) * page.ratio"
                 :x2="(properties.depth + 3 * properties.height + properties.marginA) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
                 :x2="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
                 :y1="0"
@@ -113,35 +115,33 @@ emit('labels', {
         </g>
         <g>
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="properties.depth * page.ratio"
                 :y1="properties.height * page.ratio"
                 :y2="properties.height * page.ratio"
             />
-            <line
-                class="cut-line"
+            <CutLine
                 :x1="properties.depth * page.ratio"
                 :x2="(properties.depth + 2 * properties.height) * page.ratio"
                 :y1="properties.height * page.ratio"
                 :y2="properties.height * page.ratio"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 2 * properties.height) * page.ratio"
                 :x2="(properties.depth + 2 * properties.height + properties.marginA) * page.ratio"
                 :y1="properties.height * page.ratio"
                 :y2="properties.height * page.ratio"
             />
-            <line v-if="properties.marginB > 0"
-                class="cut-line"
+            <CutLine v-if="properties.marginB > 0"
                 :x1="(properties.depth + 2 * properties.height + properties.marginA) * page.ratio"
                 :x2="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
                 :y1="properties.height * page.ratio"
                 :y2="properties.height * page.ratio"
             />
             <line v-if="properties.marginB > 0"
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
                 :x2="page.pWidth"
                 :y1="properties.height * page.ratio"
@@ -150,35 +150,33 @@ emit('labels', {
 
 
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="properties.depth * page.ratio"
                 :y1="(properties.height + properties.width) * page.ratio"
                 :y2="(properties.height + properties.width) * page.ratio"
             />
-            <line
-                class="cut-line"
+            <CutLine
                 :x1="properties.depth * page.ratio"
                 :x2="(properties.depth + 2 * properties.height) * page.ratio"
                 :y1="(properties.height + properties.width) * page.ratio"
                 :y2="(properties.height + properties.width) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 2 * properties.height) * page.ratio"
                 :x2="(properties.depth + 2 * properties.height + properties.marginA) * page.ratio"
                 :y1="(properties.height + properties.width) * page.ratio"
                 :y2="(properties.height + properties.width) * page.ratio"
             />
-            <line v-if="properties.marginB > 0"
-                class="cut-line"
+            <CutLine v-if="properties.marginB > 0"
                 :x1="(properties.depth + 2 * properties.height + properties.marginA) * page.ratio"
                 :x2="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
                 :y1="(properties.height + properties.width) * page.ratio"
                 :y2="(properties.height + properties.width) * page.ratio"
             />
             <line v-if="properties.marginB > 0"
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.depth + 4 * properties.height + properties.marginA) * page.ratio"
                 :x2="page.pWidth"
                 :y1="(properties.height + properties.width) * page.ratio"

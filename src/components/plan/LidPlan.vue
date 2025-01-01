@@ -2,6 +2,7 @@
 import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
 import CutArea from './common/CutArea.vue';
+import PasteArea from './common/PasteArea.vue';
 import AdditionalArrows from './common/AdditionalArrows.vue';
 
 import * as plan from './plan';
@@ -53,6 +54,7 @@ const lidCover = computed(() => {
 emit('labels', {
     arrow: true,
     fold: true,
+    foldDetails: true,
     cut: true,
 });
 
@@ -67,6 +69,7 @@ emit('labels', {
     >
         <defs>
             <CutArea />
+            <PasteArea />
         </defs>
         <g  v-if="properties.lip">
             <rect
@@ -99,6 +102,22 @@ emit('labels', {
             />
         </g>
         <g>
+            <rect
+                class="paste-front"
+                :x="properties.lip * page.ratio"
+                :y="0"
+                :width="2 * properties.height * page.ratio"
+                :height="lipLid * page.ratio"
+            />
+            <rect
+                class="paste-front"
+                :x="page.pWidth - (2 * properties.height + properties.lip) * page.ratio"
+                :y="0"
+                :width="2 * properties.height * page.ratio"
+                :height="lipLid * page.ratio"
+            />
+        </g>
+        <g>
             <Arrow
                 :x="0"
                 :y="0"
@@ -121,28 +140,28 @@ emit('labels', {
         </g>
         <g>
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="properties.lip * page.ratio"
                 :x2="properties.lip * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(properties.lip + properties.height) * page.ratio"
                 :x2="(properties.lip + properties.height) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="page.pWidth - (properties.lip) * page.ratio"
                 :x2="page.pWidth - (properties.lip) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="page.pWidth - (properties.lip + properties.height) * page.ratio"
                 :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
                 :y1="0"
@@ -150,28 +169,28 @@ emit('labels', {
             />
 
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
                 :y2="lipLid * page.ratio"
                 :y1="lipLid * page.ratio"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
                 :y1="(lipLid + properties.height) * page.ratio"
                 :y2="(lipLid + properties.height) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
                 :y1="(lipLid + properties.height + properties.depth) * page.ratio"
                 :y2="(lipLid + properties.height + properties.depth) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
                 :y1="(lipLid + 2 * properties.height + properties.depth) * page.ratio"
@@ -179,28 +198,28 @@ emit('labels', {
             />
 
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.lip) * page.ratio"
                 :x2="(properties.lip + properties.height) * page.ratio"
                 :y1="(lipLid) * page.ratio"
                 :y2="(lipLid + properties.height) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="page.pWidth - (properties.lip) * page.ratio"
                 :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
                 :y1="(lipLid) * page.ratio"
                 :y2="(lipLid + properties.height) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.lip) * page.ratio"
                 :x2="(properties.lip + properties.height) * page.ratio"
                 :y1="page.pHeight - (lidCover) * page.ratio"
                 :y2="page.pHeight - (lidCover + properties.height) * page.ratio"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="page.pWidth - (properties.lip) * page.ratio"
                 :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
                 :y1="page.pHeight - (lidCover) * page.ratio"

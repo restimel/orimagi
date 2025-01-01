@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, defineEmits } from 'vue';
 import Arrow from './common/Arrow.vue';
+import PasteArea from './common/PasteArea.vue';
 import AdditionalArrows from './common/AdditionalArrows.vue';
 
 import * as plan from './plan';
@@ -29,6 +30,8 @@ const ready = computed(() => {
 emit('labels', {
     arrow: true,
     fold: true,
+    foldDetails: true,
+    cut: false,
 });
 
 </script>
@@ -40,6 +43,32 @@ emit('labels', {
 
         :viewBox="page.viewBox"
     >
+        <defs>
+            <PasteArea />
+        </defs>
+        <g>
+            <rect
+                class="paste-front"
+                :x="0"
+                :y="0"
+                :width="(properties.width - properties.depth) * page.ratio"
+                :height="page.pHeight"
+            />
+            <rect
+                class="paste-front"
+                :x="(2 * properties.width + properties.depth) * page.ratio"
+                :y="properties.depth * page.ratio"
+                :width="properties.width * page.ratio"
+                :height="(properties.width - properties.depth) * page.ratio"
+            />
+            <rect
+                class="paste-front"
+                :x="(3 * properties.width + 2 * properties.depth) * page.ratio"
+                :y="0"
+                :width="properties.width * page.ratio"
+                :height="page.pHeight"
+            />
+        </g>
         <g>
             <Arrow
                 :x="0"
@@ -63,42 +92,42 @@ emit('labels', {
         </g>
         <g>
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.width - properties.depth) * page.ratio"
                 :x2="(properties.width - properties.depth) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold mountain-fold"
                 :x1="(properties.width) * page.ratio"
                 :x2="(properties.width) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(2 * properties.width) * page.ratio"
                 :x2="(2 * properties.width) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(2 * properties.width + properties.depth) * page.ratio"
                 :x2="(2 * properties.width + properties.depth) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(3 * properties.width + properties.depth) * page.ratio"
                 :x2="(3 * properties.width + properties.depth) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(3 * properties.width + 2 * properties.depth) * page.ratio"
                 :x2="(3 * properties.width + 2 * properties.depth) * page.ratio"
                 :y1="0"
@@ -106,14 +135,14 @@ emit('labels', {
             />
 
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="(2 * properties.width) * page.ratio"
                 :x2="(properties.width) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
             <line
-                class="fold"
+                class="fold valley-fold"
                 :x1="page.pWidth - (properties.width) * page.ratio"
                 :x2="page.pWidth"
                 :y1="0"
