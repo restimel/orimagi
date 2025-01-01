@@ -1,0 +1,15 @@
+{
+    "name": "Orimagi",
+    "short_name": "Orimagi",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#00bd7e",
+    "icons": [
+        {
+            "src": "/img/logo.svg",
+            "sizes": "100x100",
+            "type": "image/svg"
+        }
+    ]
+}
