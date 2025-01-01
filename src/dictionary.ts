@@ -136,6 +136,38 @@ const dict: Map<string, I18nItem> = new Map<string, I18nItem>([
         en: '',
         fr: 'Affichage',
     }],
+    ['Properties should be positive numbers', {
+        en: '',
+        fr: 'Les propriétés doivent être des nombres positifs',
+    }],
+    ['"Depth" should be greater than "height"', {
+        en: '',
+        fr: 'La "profondeur" doit être plus grande que la "hauteur"',
+    }],
+    ['"Depth" should be lower than "width"', {
+        en: '',
+        fr: 'La "profondeur" doit être plus petite que la "longueur"',
+    }],
+    ['"Overlapping" should be lower than "width"', {
+        en: '',
+        fr: 'La "superposition" doit être plus petite que la "longueur"',
+    }],
+    ['"Band height" is too big relatively to "height"', {
+        en: '',
+        fr: 'La "hauteur de la bande" est trop grande par rapport à la "hauteur"',
+    }],
+    ['"Lip" should be lower than "depth"', {
+        en: '',
+        fr: 'Le "rebord" doit être plus petit que la "profondeur"',
+    }],
+    ['"Lid ratio" should be between 0 and 100', {
+        en: '',
+        fr: 'Le ratio de recouvrement doit être entre 0 et 100',
+    }],
+    ['With the current ratio, the "Lid oversize" will be over the "width" of the box', {
+        en: '',
+        fr: 'Avec le ratio actuel, le "chevauchement de couvercle" va dépasser la "longueur" de la boîte',
+    }],
 ]);
 
 export default dict;

@@ -7,7 +7,7 @@ type OrigamiItem = {
     properties: Properties;
     dimension: Dimension;
     dimensionNames: Record<keyof Dimension, () => string>;
-    validate: (values: PropertyValues) => boolean;
+    validate: (values: PropertyValues) => string;
     resource: string;
 };
 

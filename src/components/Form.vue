@@ -77,11 +77,15 @@ const dimensionValues = computed(() => {
     return computeDimension(properties);
 });
 
-const isValid = computed(() => {
+const errorMessage = computed<string>(() => {
     const validate = props.origami.validate;
     const values = properties;
 
     return validate(values);
+});
+
+const isValid = computed<boolean>(() => {
+    return !errorMessage.value;
 });
 
 function scale(property: keyof PropertyValues, ratio: number): number {
@@ -209,6 +213,11 @@ watch([properties, title], () => {
                 <IconLock v-if="lockProperties.has(name)" class="btn-icon active" @click="() => lockProperties.delete(name)" />
                 <IconUnlock v-else class="btn-icon" @click="() => lockProperties.add(name)" />
             </label>
+            <div v-if="!isValid"
+                class="error-message"
+            >
+                {{ errorMessage }}
+            </div>
         </fieldset>
         <fieldset>
             <legend>
@@ -272,5 +281,10 @@ fieldset {
 
 .invalid {
     background-color: var(--color-error);
+}
+
+.error-message {
+    text-align: right;
+    font-style: italic;
 }
 </style>

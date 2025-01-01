@@ -30,8 +30,12 @@ const origamis: OrigamiItem[] = [{
         paperHeight: () => _.value('Paper height'),
         cubeVolume: () => _.value('Volume'),
     },
-    validate: (values: PropertyValues) => {
-        return values.width > 0 && values.height > 0 && values.depth > 0;
+    validate: (values: PropertyValues): string => {
+        if (values.width <= 0 || values.height <= 0 || values.depth <= 0) {
+            return _.value('Properties should be positive numbers');
+        }
+
+        return '';
     },
     resource: 'https://www.youtube.com/watch?v=WYvvkrYawpk',
 }, {
@@ -63,17 +67,42 @@ const origamis: OrigamiItem[] = [{
         cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
-        const lip = values.lip;
+        const vLip = values.lip;
+        const lip = vLip ?? 0;
         const depth = values.depth;
         const width = values.width;
         const height = values.height;
-        const marginA = values.marginA;
-        const lidRatio = values.ratio;
+        const vMarginA = values.marginA;
+        const marginA = vMarginA ?? 0;
+        const vLidRatio = values.ratio;
+        const lidRatio = vLidRatio ?? 0;
 
-        return depth > 0 && height > 0 && width > 0 && height <= depth
-            && typeof lip === 'number' && lip >=0 && lip <= values.depth
-            && typeof marginA === 'number' && marginA >=0 && marginA <= width
-            && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;
+        if (width <= 0 || height <= 0 || depth <= 0
+            || typeof vLip !== 'number' || lip < 0
+            || typeof vMarginA !== 'number' || marginA < 0
+            || typeof vLidRatio !== 'number' || lidRatio < 0
+        ) {
+            return _.value('Properties should be positive numbers');
+        }
+
+        if (height > depth) {
+            return _.value('"Depth" should be greater than "height"');
+        }
+
+        if (lip > depth) {
+            return _.value('"Lip" should be lower than "depth"');
+        }
+
+        if (lidRatio < 0 || lidRatio > 100) {
+            return _.value('"Lid ratio" should be between 0 and 100');
+        }
+
+        const maxMargin = width * lidRatio / 100;
+        if (marginA > maxMargin) {
+            return _.value('With the current ratio, the "Lid oversize" will be over the "width" of the box');
+        }
+
+        return '';
     },
     resource: '',
 }, {
@@ -104,8 +133,11 @@ const origamis: OrigamiItem[] = [{
         cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
-        return values.width > 0 && values.height > 0
-            && values.depth > 0 && values.marginA! > 0  && values.marginB! >= 0;
+        if (values.width <= 0 || values.height <= 0 || values.depth <= 0 || values.marginA! <= 0 || values.marginB! < 0) {
+            return _.value('Properties should be positive numbers');
+        }
+
+        return '';
     },
     resource: '',
 }, {
@@ -131,8 +163,15 @@ const origamis: OrigamiItem[] = [{
         cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
-        return values.width > 0 && values.depth > 0
-            && values.depth <= values.width;
+        if (values.width <= 0 || values.depth <= 0) {
+            return _.value('Properties should be positive numbers');
+        }
+
+        if (values.depth > values.width) {
+            return _.value('"Depth" should be lower than "width"');
+        }
+
+        return '';
     },
     resource: 'https://www.youtube.com/watch?v=fEgUx_0-1Qs',
 }, {
@@ -163,10 +202,21 @@ const origamis: OrigamiItem[] = [{
         cubeVolume: () => _.value('Volume'),
     },
     validate: (values: PropertyValues) => {
-        return values.width > 0 && values.height > 0 && values.depth > 0
-            && values.marginA! > 0  && values.marginB! > 0
-            && 2 * values.marginA! <= values.height
-            && values.marginB! <= values.width;
+        if (values.width <= 0 || values.height <= 0 || values.depth <= 0
+            || values.marginA! <= 0 || values.marginB! <= 0
+        ) {
+            return _.value('Properties should be positive numbers');
+        }
+
+        if (2 * values.marginA! > values.height) {
+            return _.value('"Band height" is too big relatively to "height"');
+        }
+
+        if (values.marginB! > values.width) {
+            return _.value('"Overlapping" should be lower than "width"');
+        }
+
+        return '';
     },
     resource: '',
 }];
