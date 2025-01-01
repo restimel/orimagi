@@ -48,10 +48,10 @@ const origamis: OrigamiItem[] = [{
     },
     dimension: {
         paperWidth: (dim: PropertyValues) => {
-            return dim.width + 2 * dim.height + 2 * (dim.lip || 0);
+            return dim.depth + 2 * dim.height + 2 * (dim.lip || 0);
         },
         paperHeight: (dim: PropertyValues) => {
-            return 2 * dim.depth + 2 * dim.height + (dim.marginA || 0);
+            return 2 * dim.width + 2 * dim.height + (dim.marginA || 0);
         },
         cubeVolume: (dim: PropertyValues) => {
             return dim.width * dim.depth * dim.height;
@@ -64,14 +64,15 @@ const origamis: OrigamiItem[] = [{
     },
     validate: (values: PropertyValues) => {
         const lip = values.lip;
+        const depth = values.depth;
         const width = values.width;
         const height = values.height;
         const marginA = values.marginA;
         const lidRatio = values.ratio;
 
-        return width > 0 && height > 0 && values.depth > 0 && height <= width
-            && typeof lip === 'number' && lip >=0 && lip <= values.width
-            && typeof marginA === 'number' && marginA >=0 && marginA <= values.depth
+        return depth > 0 && height > 0 && width > 0 && height <= depth
+            && typeof lip === 'number' && lip >=0 && lip <= values.depth
+            && typeof marginA === 'number' && marginA >=0 && marginA <= width
             && typeof lidRatio === 'number' && lidRatio >=0 && lidRatio <= 100;
     },
     resource: '',
