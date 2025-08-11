@@ -30,17 +30,29 @@ const ready = computed(() => {
     ].every((val) => Number.isFinite(val));
 });
 
+const height = computed(() => {
+    return properties.height;
+});
+
+const width = computed(() => {
+    return properties.depth;
+});
+
+const depth = computed(() => {
+    return properties.width;
+});
+
 const lidOver = computed(() => {
-    const width = properties.width;
+    const widthValue = width.value;
     const ratio = properties.ratio / 100;
 
-    return width * ratio;
+    return widthValue * ratio;
 });
 
 const topLid = computed(() => {
     const margin = Math.min(lidOver.value, properties.marginA);
 
-    return properties.width - lidOver.value + margin;
+    return width.value - lidOver.value + margin;
 });
 
 const bottomLid = computed(() => {
@@ -73,28 +85,28 @@ emit('labels', {
                 :x="0"
                 :y="0"
                 :width="properties.lip * page.ratio"
-                :height="(topLid + properties.height) * page.ratio"
+                :height="(topLid + height) * page.ratio"
             />
             <rect
                 class="cut"
                 :x="page.pWidth - properties.lip * page.ratio"
                 :y="0"
                 :width="properties.lip * page.ratio"
-                :height="(topLid + properties.height) * page.ratio"
+                :height="(topLid + height) * page.ratio"
             />
             <rect
                 class="cut"
                 :x="0"
-                :y="page.pHeight - (bottomLid + properties.height) * page.ratio"
+                :y="page.pHeight - (bottomLid + height) * page.ratio"
                 :width="properties.lip * page.ratio"
-                :height="(bottomLid + properties.height) * page.ratio"
+                :height="(bottomLid + height) * page.ratio"
             />
             <rect
                 class="cut"
                 :x="page.pWidth - properties.lip * page.ratio"
-                :y="page.pHeight - (bottomLid + properties.height) * page.ratio"
+                :y="page.pHeight - (bottomLid + height) * page.ratio"
                 :width="properties.lip * page.ratio"
-                :height="(bottomLid + properties.height) * page.ratio"
+                :height="(bottomLid + height) * page.ratio"
             />
         </g>
         <g>
@@ -102,14 +114,14 @@ emit('labels', {
                 class="paste-front"
                 :x="properties.lip * page.ratio"
                 :y="0"
-                :width="2 * properties.height * page.ratio"
+                :width="2 * height * page.ratio"
                 :height="topLid * page.ratio"
             />
             <rect
                 class="paste-front"
-                :x="page.pWidth - (2 * properties.height + properties.lip) * page.ratio"
+                :x="page.pWidth - (2 * height + properties.lip) * page.ratio"
                 :y="0"
-                :width="2 * properties.height * page.ratio"
+                :width="2 * height * page.ratio"
                 :height="topLid * page.ratio"
             />
         </g>
@@ -144,8 +156,8 @@ emit('labels', {
             />
             <line
                 class="fold valley-fold"
-                :x1="(properties.lip + properties.height) * page.ratio"
-                :x2="(properties.lip + properties.height) * page.ratio"
+                :x1="(properties.lip + height) * page.ratio"
+                :x2="(properties.lip + height) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
@@ -158,8 +170,8 @@ emit('labels', {
             />
             <line
                 class="fold valley-fold"
-                :x1="page.pWidth - (properties.lip + properties.height) * page.ratio"
-                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :x1="page.pWidth - (properties.lip + height) * page.ratio"
+                :x2="page.pWidth - (properties.lip + height) * page.ratio"
                 :y1="0"
                 :y2="page.pHeight"
             />
@@ -175,51 +187,51 @@ emit('labels', {
                 class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
-                :y1="(topLid + properties.height) * page.ratio"
-                :y2="(topLid + properties.height) * page.ratio"
+                :y1="(topLid + height) * page.ratio"
+                :y2="(topLid + height) * page.ratio"
             />
             <line
                 class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
-                :y1="(topLid + properties.height + properties.width) * page.ratio"
-                :y2="(topLid + properties.height + properties.width) * page.ratio"
+                :y1="(topLid + height + width) * page.ratio"
+                :y2="(topLid + height + width) * page.ratio"
             />
             <line
                 class="fold valley-fold"
                 :x1="0"
                 :x2="page.pWidth"
-                :y1="(topLid + 2 * properties.height + properties.width) * page.ratio"
-                :y2="(topLid + 2 * properties.height + properties.width) * page.ratio"
+                :y1="(topLid + 2 * height + width) * page.ratio"
+                :y2="(topLid + 2 * height + width) * page.ratio"
             />
 
             <line
                 class="fold mountain-fold"
                 :x1="(properties.lip) * page.ratio"
-                :x2="(properties.lip + properties.height) * page.ratio"
+                :x2="(properties.lip + height) * page.ratio"
                 :y1="(topLid) * page.ratio"
-                :y2="(topLid + properties.height) * page.ratio"
+                :y2="(topLid + height) * page.ratio"
             />
             <line
                 class="fold mountain-fold"
                 :x1="page.pWidth - (properties.lip) * page.ratio"
-                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :x2="page.pWidth - (properties.lip + height) * page.ratio"
                 :y1="(topLid) * page.ratio"
-                :y2="(topLid + properties.height) * page.ratio"
+                :y2="(topLid + height) * page.ratio"
             />
             <line
                 class="fold mountain-fold"
                 :x1="(properties.lip) * page.ratio"
-                :x2="(properties.lip + properties.height) * page.ratio"
+                :x2="(properties.lip + height) * page.ratio"
                 :y1="page.pHeight - (bottomLid) * page.ratio"
-                :y2="page.pHeight - (bottomLid + properties.height) * page.ratio"
+                :y2="page.pHeight - (bottomLid + height) * page.ratio"
             />
             <line
                 class="fold mountain-fold"
                 :x1="page.pWidth - (properties.lip) * page.ratio"
-                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :x2="page.pWidth - (properties.lip + height) * page.ratio"
                 :y1="page.pHeight - (bottomLid) * page.ratio"
-                :y2="page.pHeight - (bottomLid + properties.height) * page.ratio"
+                :y2="page.pHeight - (bottomLid + height) * page.ratio"
             />
         </g>
         <g>
@@ -234,22 +246,22 @@ emit('labels', {
                 :x="page.pWidth"
                 :y="topLid * page.ratio"
                 :x2="page.pWidth"
-                :y2="(topLid + properties.height) * page.ratio"
-                :text="properties.height"
+                :y2="(topLid + height) * page.ratio"
+                :text="height"
             />
             <Arrow
                 :x="page.pWidth"
-                :y="(topLid + properties.height) * page.ratio"
+                :y="(topLid + height) * page.ratio"
                 :x2="page.pWidth"
-                :y2="(topLid + properties.height + properties.width) * page.ratio"
-                :text="properties.width"
+                :y2="(topLid + height + width) * page.ratio"
+                :text="width"
             />
             <Arrow
                 :x="page.pWidth"
-                :y="(topLid + properties.height + properties.width) * page.ratio"
+                :y="(topLid + height + width) * page.ratio"
                 :x2="page.pWidth"
-                :y2="(topLid + 2 * properties.height + properties.width) * page.ratio"
-                :text="properties.height"
+                :y2="(topLid + 2 * height + width) * page.ratio"
+                :text="height"
             />
             <Arrow
                 :x="page.pWidth"
@@ -270,25 +282,25 @@ emit('labels', {
             <Arrow
                 :x="properties.lip * page.ratio"
                 :y="page.pHeight"
-                :x2="(properties.lip + properties.height) * page.ratio"
+                :x2="(properties.lip + height) * page.ratio"
                 :y2="page.pHeight"
-                :text="properties.height"
+                :text="height"
                 reverseOffset
             />
             <Arrow
-                :x="(properties.lip + properties.height) * page.ratio"
+                :x="(properties.lip + height) * page.ratio"
                 :y="page.pHeight"
-                :x2="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :x2="page.pWidth - (properties.lip + height) * page.ratio"
                 :y2="page.pHeight"
-                :text="properties.depth"
+                :text="depth"
                 reverseOffset
             />
             <Arrow
-                :x="page.pWidth - (properties.lip + properties.height) * page.ratio"
+                :x="page.pWidth - (properties.lip + height) * page.ratio"
                 :y="page.pHeight"
                 :x2="page.pWidth - (properties.lip) * page.ratio"
                 :y2="page.pHeight"
-                :text="properties.height"
+                :text="height"
                 reverseOffset
             />
             <Arrow v-if="properties.lip"

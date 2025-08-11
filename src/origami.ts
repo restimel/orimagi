@@ -52,13 +52,13 @@ const origamis: OrigamiItem[] = [{
     },
     dimension: {
         paperWidth: (dim: PropertyValues) => {
-            return dim.depth + 2 * dim.height + 2 * (dim.lip || 0);
+            return dim.width + 2 * dim.height + 2 * (dim.lip || 0);
         },
         paperHeight: (dim: PropertyValues) => {
-            return 2 * dim.width + 2 * dim.height + (dim.marginA || 0);
+            return 2 * dim.depth + 2 * dim.height + (dim.marginA || 0);
         },
         cubeVolume: (dim: PropertyValues) => {
-            return dim.width * dim.depth * dim.height;
+            return dim.depth * dim.width * dim.height;
         },
     },
     dimensionNames: {
