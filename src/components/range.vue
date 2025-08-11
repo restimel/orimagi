@@ -29,9 +29,9 @@ function setValue(evt: Event, forceReset = false): number {
         if (value < 0) {
             value = 0;
         } else
-        if (value > 100) {
-            value = 100;
-        }
+            if (value > 100) {
+                value = 100;
+            }
     }
 
     currentValue.value = value;

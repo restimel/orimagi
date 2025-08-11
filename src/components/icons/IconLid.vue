@@ -12,7 +12,7 @@ const lidCover = computed(() => {
     const ratio = props.dimensions?.ratio;
 
     if (ratio === undefined) {
-      return 600;
+        return 600;
     }
 
     return ratio * depth.value / 100;
