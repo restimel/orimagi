@@ -57,7 +57,7 @@ export function add(arrow: AdditionalArrow) {
 function areEqual(num1: number, num2: number) {
     /* Number.EPSILON doesn't seems enough */
     const epsilon = 1e-12;
-    return Math.abs(num1 - num2) < epsilon;
+    return Math.abs(num1 - num2 || 0) < epsilon;
 }
 
 function check(arrow1: ArrowDef, arrow2: ArrowDef): boolean {
